@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Layout from "../../components/Layout/Layout";
 
 const Activity = () => {
   return (
-    <div>Activity</div>
-  )
-}
+    <>
+      <Layout>Activity</Layout>
+    </>
+  );
+};
 
-export default Activity
+export default Activity;

@@ -25,8 +25,8 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="flex  items-center justify-center shadow-xl ">
-        <div className={`flex flex-col w-86  p-8  gap-3 bg-white`}>
+      <div className=" flex justify-center items-center mt-3 ">
+        <div className={`flex flex-col w-86  px-8 py-4   gap-3  bg-white`}>
           <div className="flex  gap-4 align items-center justify-center p-5">
             <img
               src={Logo}
@@ -39,10 +39,10 @@ const SignUp = () => {
           <div
             className={`flex flex-col w-86 border-2 p-8 rounded-lg gap-3 opacity`}
           >
-            <div className="flex flex-col text-start text-xl">
-              Personal Details
+            <div className="flex flex-col text-start text-sm text-gray-500 font-semibold">
+              Fill your personal details to get your basix account
             </div>
-            <div className="grid gap-4 grid-cols- grid-rows-3">
+            <div className="grid gap-4 grid-cols-1 grid-rows-3">
               <Input
                 className="flex flex-col"
                 label={"First Name"}
@@ -76,23 +76,25 @@ const SignUp = () => {
                 callback={getUserData}
                 placeholder={"Enter your Contact Number"}
               />
-
-              <Input
-                label={"Password"}
-                type={"password"}
-                name={"password"}
-                value={userData.password}
-                callback={getUserData}
-                placeholder={"Enter your Password"}
-              />
-              <Input
-                label={"Confirm Password"}
-                type={"text"}
-                name={"confirm_password"}
-                value={userData.confirm_password}
-                callback={getUserData}
-                placeholder={"Enter your Password Again"}
-              />
+              <div className="grid gap-4 grid-cols-2 grid-rows-1">
+                {" "}
+                <Input
+                  label={"Password"}
+                  type={"password"}
+                  name={"password"}
+                  value={userData.password}
+                  callback={getUserData}
+                  placeholder={"Enter your Password"}
+                />
+                <Input
+                  label={"Confirm Password"}
+                  type={"text"}
+                  name={"confirm_password"}
+                  value={userData.confirm_password}
+                  callback={getUserData}
+                  placeholder={"Enter your Password Again"}
+                />
+              </div>
             </div>
 
             {/* Name input section */}
@@ -104,7 +106,7 @@ const SignUp = () => {
                 Sign up
               </button>
               <p className={`text-xs text-center`}>
-                Already have an account{" "}
+                Already have an account ?{" "}
                 <span
                   className={`text-sky-700 hover:cursor-pointer hover:text-sky-500`}
                 >

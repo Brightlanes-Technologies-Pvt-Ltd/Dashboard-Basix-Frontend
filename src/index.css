@@ -4,8 +4,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: "#e0f2fe";
   font-size: large;
+}
+body {
+  @apply bg-gray-100
 }
 
 body {

@@ -1,13 +1,16 @@
 import React from "react";
-import Homepage from "../Homepage/Homepage";
 import Sidebar from "../Sidebar/Sidebar";
 
-const Layout = () => {
+const Layout = ({ children }) => {
   return (
-    <div className="flex bg-gray-100">
-      <Sidebar />
-      <Homepage />
-    </div>
+    <>
+      <div className="flex w-screen bg-slate-100 ">
+        <div>
+          <Sidebar />
+        </div>
+        <div className="w-screen">{children}</div>
+      </div>
+    </>
   );
 };
 

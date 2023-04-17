@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Layout from "../../components/Layout/Layout";
 
 const Transactions = () => {
   return (
-    <div>Transactions</div>
-  )
-}
+    <>
+      <Layout>Transactions</Layout>
+    </>
+  );
+};
 
-export default Transactions
+export default Transactions;

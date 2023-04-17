@@ -2,23 +2,50 @@ import React from "react";
 import Input from "../components/common/Input/Input";
 import { useState } from "react";
 import Logo from "../components/assests/images/logo.png";
+import { LogIn, teacherLogIn } from "../utils/api/authApI/authApi";
+import { login } from "../redux/feateres/useSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 // import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate()
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
+  const [loginAs, setLoginAs] = useState('')
   const getUserData = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
   //   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
+  const onFormSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      if (loginAs == 'admin') {
+        const { data } = await LogIn(userData);
+        console.log(data);
+        dispatch(login(data.user));
+      } else if (loginAs == 'teacher') {
+        const { data } = await teacherLogIn(userData);
+        console.log(data);
+        dispatch(login(data.user));
+      }
+
+      navigate('/')
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(loginAs);
   return (
     <>
-      <div className="flex  items-center justify-center shadow-xl ">
-        <div className={`flex flex-col w-86  p-8  gap-3 bg-white`}>
+      <div className="flex justify-center items-center  mt-10">
+        <div className={`flex flex-col w-96  p-8  gap-3 bg-white `}>
           <div className="flex  gap-4 align items-center justify-center p-5">
             <img
               src={Logo}
@@ -31,27 +58,10 @@ const Login = () => {
           <div
             className={`flex flex-col w-86 border-2 p-8 rounded-lg gap-3 opacity`}
           >
-            <div className="flex flex-col text-start text-xl">
-              Personal Details
+            <div className="flex flex-col text-start text-sm text-gray-500 font-semibold">
+              Login to your basix account
             </div>
             <div className="grid gap-4 grid-cols- grid-rows-3">
-              <Input
-                className="flex flex-col"
-                label={"First Name"}
-                type={"text"}
-                name={"first_name"}
-                value={userData.first_name}
-                placeholder={"Enter your First Name"}
-                callback={getUserData}
-              />
-              <Input
-                label={"Last Name"}
-                type={"text"}
-                name={"last_name"}
-                value={userData.last_name}
-                callback={getUserData}
-                placeholder={"Enter your Last Name"}
-              />
               <Input
                 label={"Email"}
                 type={"email"}
@@ -59,14 +69,6 @@ const Login = () => {
                 value={userData.email}
                 callback={getUserData}
                 placeholder={"Enter your Email"}
-              />
-              <Input
-                label={"Contact Number"}
-                type={"tel"}
-                name={"contact_number"}
-                value={userData.contact_number}
-                callback={getUserData}
-                placeholder={"Enter your Contact Number"}
               />
 
               <Input
@@ -77,32 +79,34 @@ const Login = () => {
                 callback={getUserData}
                 placeholder={"Enter your Password"}
               />
-              <Input
-                label={"Confirm Password"}
-                type={"text"}
-                name={"confirm_password"}
-                value={userData.confirm_password}
-                callback={getUserData}
-                placeholder={"Enter your Password Again"}
-              />
-            </div>
+              <div>
+                <p>Login as </p>
+                <div className="flex gap-3">
+                  <input type="radio" id="admin" name="loginAs" value="admin" onClick={(e) => setLoginAs(e.target.value)} />
+                  <label htmlFor="admin">Admin</label>
+                  <input type="radio" id="teacher" name="loginAs" value="teacher" onClick={(e) => setLoginAs(e.target.value)} />
+                  <label htmlFor="teacher">Teacher</label>
+                </div>
+              </div>
 
-            {/* Name input section */}
+              {/* Name input section */}
 
-            <div className={`flex flex-col gap-5`}>
-              <button
-                className={`  mt-2 self-center text-sm text-white bg-sky-500 hover:bg-sky-700 hover:text-white block px-4 py-3 rounded-[12px]  `}
-              >
-                Sign up
-              </button>
-              <p className={`text-xs text-center`}>
-                Already have an account{" "}
-                <span
-                  className={`text-sky-700 hover:cursor-pointer hover:text-sky-500`}
+              <div className={`flex flex-col gap-5`}>
+                <button
+                  className={`  mt-2 self-center text-sm text-white bg-sky-500 hover:bg-sky-700 hover:text-white block px-4 py-3 rounded-[12px]  `}
+                  onClick={onFormSubmit}
                 >
-                  Click Here
-                </span>
-              </p>
+                  LogIn
+                </button>
+                <p className={`text-xs text-center`}>
+                  Don't have an account{" "}
+                  <span
+                    className={`text-sky-700 hover:cursor-pointer hover:text-sky-500`}
+                  >
+                    Create New Account
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

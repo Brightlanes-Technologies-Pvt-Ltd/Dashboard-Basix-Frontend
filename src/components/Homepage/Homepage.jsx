@@ -1,13 +1,29 @@
-import SignUp from "../../Auth/SignUp";
 import React from "react";
+import Layout from "../Layout/Layout";
+// import Table from "../Table/Table";
+// import SignUp from "../../Auth/SignUp";
+// import Login from "../../Auth/Login";
+import Calendar from "../Calnedar/Calendar";
+// import Modal from "../Modal/Modal";
+// import Button from "../Button/Button";
+// import ClassForm from "../Form/ClassForm";
 
 const Homepage = () => {
   return (
-    <div className=" p-10 d-flex">
-      <h1 className=" text-2xl font-semibold">
-        <SignUp />
-      </h1>
-    </div>
+    <>
+      <Layout>
+        {/* <ClassForm />  */}
+        {/* <Button text={"click me"} callback={""} /> */}
+        {/* <Table />
+      
+       
+     
+        
+        {/* <SignUp /> */}
+        {/* <Login /> */}
+        <Calendar />
+      </Layout>
+    </>
   );
 };
 

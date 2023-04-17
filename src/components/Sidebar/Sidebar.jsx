@@ -11,7 +11,7 @@ const Sidebar = () => {
     <>
       {/* ------------------Company Logo and Name-----------------------------*/}
       <div
-        className={`bg-white h-screen p-5 pt-8 shadow-xl ${
+        className={`bg-white h-screen  rounded-lg  px-5   shadow-xl ${
           open ? "w-72 " : "w-20"
         } duration-300 relative`}
       >
@@ -22,7 +22,7 @@ const Sidebar = () => {
             }`}
             onClick={() => setOpen(!open)}
           />
-          <Link to="/">
+          <Link to="/homepage">
             <img
               src={Logo}
               alt="logo"

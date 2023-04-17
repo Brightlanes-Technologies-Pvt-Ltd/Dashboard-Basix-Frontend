@@ -3,15 +3,15 @@ import React from "react";
 const Button = ({
   text,
   callback,
-  color = "bg-sky-500",
-  hover = "hover:bg-sky-700",
+  color = "bg-blue-700",
+  hover = "hover:bg-blue-800",
+  Icon,
+  className = "mt-2 self-center  text-sm text-white  hover:text-white block px-4 py-3 rounded-[12px]  drop-shadow-xl font-semibold",
 }) => {
   return (
-    <button
-      className={`  mt-2 self-center text-sm text-white ${color} ${hover} hover:text-white block px-4 py-3 rounded-[12px]  `}
-      onClick={callback}
-    >
+    <button className={`  ${className} ${color} ${hover}  `} onClick={callback}>
       {text}
+      {Icon}
     </button>
   );
 };

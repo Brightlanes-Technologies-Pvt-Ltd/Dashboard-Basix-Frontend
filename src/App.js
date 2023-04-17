@@ -10,19 +10,31 @@ import Activity from "./Pages/Activity/Activity";
 import Documents from "./Pages/Documents/Documents";
 import Personal from "./Pages/Personal/Personal";
 import "react-toastify/dist/ReactToastify.css";
+import Classes from "./components/Classes";
+import ClassForm from "./components/Form/ClassForm";
+import ProtectedRoute from "./Auth/ProtectedRoute";
 
 const App = () => {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/login" element={<Login />} />
+          {/* User Authentication */}
+          <Route path="/" element={<Login />} />
+
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/activity" element={<Activity />} />
-          <Route path="/documents" element={<Documents />} />
-          <Route path="/personal" element={<Personal />} />
+
+          {/* Admin Routes */}
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/activity" element={<Activity />} />
+            <Route path="/documents" element={<Documents />} />
+            <Route path="/personal" element={<Personal />} />
+            <Route path="/course/:courseId" element={<Classes />} />
+            <Route path="/add-course" element={<ClassForm />} />
+            <Route path="/homepage" element={<Homepage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

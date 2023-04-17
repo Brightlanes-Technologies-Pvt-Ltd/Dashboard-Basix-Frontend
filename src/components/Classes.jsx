@@ -1,26 +1,33 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../../components/Layout/Layout";
-import { read, utils } from "xlsx";
-import Table from "../../components/Table/Table";
-import { getClasses } from "../../utils/api/classApI/classApi";
-import { setClass } from "../../redux/feateres/classSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "../../components/Button/Button";
-import { getAllCourses, getCourses } from "../../utils/api/course_API";
-import { all } from "axios";
-import Classes from "../../components/Classes";
-import { useNavigate } from "react-router-dom";
-import DropZone from "../../components/Form/DropZone";
+import React, { useState, useEffect } from "react";
+import Layout from "./Layout/Layout";
+import ClassTable from "./Table/ClassTable";
+import { useAsyncValue, useNavigate, useParams } from "react-router-dom";
+import { getAllClassesOfAcourse } from "../utils/api/classApI/classApi";
+import { getACoursesById } from "../utils/api/course_API";
+import Table from "./Table/Table";
+import DropZone from "./Form/DropZone";
+import Button from "./Button/Button";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaWpforms } from "react-icons/fa";
 import { BsFiletypeCsv } from "react-icons/bs";
 
-const Personal = () => {
+const Classes = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.user);
-  console.log(user.role);
-  const [courses, setCourses] = useState([]);
-  const [title, setTitle] = useState([
+  const { courseId } = useParams();
+  const [classes, setClasses] = useState([]);
+  const [course, setCourse] = useState([]);
+  const [classTitle, setTitle] = useState([
+    "className",
+    "description",
+    "startDate",
+    "endDate",
+    "category",
+    "agendas",
+
+    "classHours",
+    "status",
+  ]);
+  const [courseTitle, setCourseTitle] = useState([
     "courseName",
     "description",
     "startDate",
@@ -32,11 +39,33 @@ const Personal = () => {
     options: false,
     modal: false,
   });
+  useEffect(() => {
+    (async () => {
+      try {
+        const {
+          data: { classes },
+        } = await getAllClassesOfAcourse(courseId);
 
-  const navigateTo = () => {
-    navigate("/add-course");
-  };
+        setClasses([...classes]);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const {
+          data: { course },
+        } = await getACoursesById(courseId);
+
+        setCourse([{ ...course }]);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
   const showModal = () => {
     setToggle({
       ...toggle,
@@ -44,37 +73,19 @@ const Personal = () => {
     });
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-       if(user.role === "teacher"){
-        const {
-          data: { courses },
-        } = await getCourses(user._id);
-        setCourses([...courses]);
-        // dispatch(setClass(allClass.data.classes));
-       }else {
-        const {
-          data: { courses },
-        } = await getAllCourses();
-        setCourses([...courses]);
-       }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+  const navigateTo = () => {
+    navigate("/add-course");
+  };
 
   return (
-    <>
-      <Layout
-        heading={"Courses"}
-       
-      >
-       <div className="mr-4 flex  justify-end  z-10">
+    <Layout
+      heading={"classes"}
+     
+    >
+      <div className="mr-4 flex  justify-end  z-10">
         <Button
           callback={showModal}
-          text={"Add Course"}
+          text={"Add Classes"}
           Icon={<AiOutlinePlus className="mt-1" />}
           className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold"
         />
@@ -118,12 +129,14 @@ const Personal = () => {
             modal: !toggle.modal,
           })
         }
-      >
-          <Table title={title} tableData={courses} />
-        </div>
-      </Layout>
-    </>
+      ></div>
+
+      <div className="flex flex-col gap-5">
+        <Table title={courseTitle} tableData={course} />
+        <ClassTable title={classTitle} tableData={classes} />
+      </div>
+    </Layout>
   );
 };
 
-export default Personal;
+export default Classes;

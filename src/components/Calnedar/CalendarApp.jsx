@@ -20,7 +20,6 @@ import { useSelector } from "react-redux";
 import { setClass } from "../../redux/feateres/classSlice";
 import { useDispatch } from "react-redux";
 
-
 const EventView = (event) => {
   const [mouseEnter, setMouseEnter] = useState(false);
   const { title, extendedProps, publicId } = event.event.event._def;
@@ -59,7 +58,6 @@ const CalenderApp = ({ events, onDelete, onEdit }) => {
     updateEvents(events);
   }, [events]);
   const dispatch = useDispatch();
-
 
   const handleFormSubmit = (formData) => {
     let newEvent = {};
@@ -127,7 +125,6 @@ const CalenderApp = ({ events, onDelete, onEdit }) => {
           center: null,
           right: "today dayGridMonth,timeGridWeek,timeGridDay,listWeek",
         }}
-        themeSystem="bootstrap5"
         height={800}
         contentHeight={780}
         eventContent={(e) => <EventView event={e} />}

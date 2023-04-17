@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const Table = ({ title, tableData }) => {
+const ClassTable = ({ title, tableData }) => {
   const navigate = useNavigate()
   return (
     <div className="p-5 max-h-full bg-gray-100">
@@ -24,12 +24,15 @@ const Table = ({ title, tableData }) => {
           {tableData &&
             tableData.map((td, index) => {
               return (
-                <tr key={td._id} onClick={() => navigate(`/course/${td._id}`)}>
-                  <th>{td.courseName}</th>
+                <tr key={td._id} >
+                  <th>{td.className}</th>
                   <th>{td.description}</th>
                   <th>{td.startDate.split("T")[0]}</th>
                   <th>{td.endDate.split("T")[0]}</th>
-                  <th>{td.enrolledStudents}</th>
+                  <th>{td.category}</th>
+                  <th>{td.agendas.length > 0  ? td.agendas.map(value => <span>{value}</span>) : 'class'}</th>
+                 
+                  <th>{td.classHours}</th>
                   <th>{td.status}</th>
                 </tr>
               );
@@ -40,4 +43,4 @@ const Table = ({ title, tableData }) => {
   );
 };
 
-export default Table;
+export default ClassTable;

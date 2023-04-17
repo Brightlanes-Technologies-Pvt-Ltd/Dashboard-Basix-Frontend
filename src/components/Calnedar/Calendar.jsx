@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import FullCalendar from "@fullcalendar/react"; // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-import timeGridPlugin from "@fullcalendar/timegrid"; // a plugin!
-import interactionPlugin from "@fullcalendar/interaction"; // a plugin!
-import { setClass } from "../../redux/feateres/classSlice";
+
 import {
   getClasses,
   getTeachersClasses,
@@ -24,14 +20,6 @@ const Calendar = () => {
     value: "bg-danger",
     label: "Company",
   });
-
-  const toggleForm = () => {
-    setModal({ form: !modal.form, csv: false });
-  };
-
-  const toggleCsvForm = () => {
-    setModal({ form: false, csv: !modal.csv });
-  };
 
   const displayEventsInCalender = () => {
     // showing events in calender
@@ -73,30 +61,41 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    if (user.role === "teacher") {
-      (async () => {
-        try {
+    (async () => {
+      try {
+        if (user.role === "teacher") {
           const {
             data: { classes },
           } = await getTeachersClasses(user._id);
 
           setAllClasses([...classes]);
           // dispatch(setClass(allClass.data.classes));
-        } catch (error) {
-          console.log(error);
+        } else {
+          const {
+            data: { classes },
+          } = await getClasses();
+
+          setAllClasses([...classes]);
+          // dispatch(setClass(allClass.data.classes));
         }
-      })();
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, []);
   console.log(allClasses);
   return (
     <>
-      <div className="">
-        <CalenderApp
-          events={mockEvents}
-          onDelete={deleteEvent}
-          onEdit={editEvent}
-        />
+      <div className=" flex justify-center align-middle ">
+     
+        <div className=" bg-white  drop-shadow-lg w-9/12 h-full  p-2">
+          <CalenderApp
+            className=" "
+            events={mockEvents}
+            onDelete={deleteEvent}
+            onEdit={editEvent}
+          />
+        </div>
       </div>
     </>
   );

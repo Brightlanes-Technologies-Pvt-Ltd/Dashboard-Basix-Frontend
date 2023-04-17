@@ -2,29 +2,55 @@ import React from "react";
 import Input from "../components/common/Input/Input";
 import { useState } from "react";
 import Logo from "../components/assests/images/logo.png";
+import Button from "../components/Button/Button";
+import { Signup } from "../utils/api/authApI/TeacherApI";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/feateres/useSlice";
+import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
 
-// import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirm_password: "",
-    contact_number: "",
-    address_line_1: "",
-    address_line_2: "",
-    city: "",
-    postcode: "",
+    mobileNumber: "",
   });
+
+  const onFormSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const { data } = await Signup(userData);
+      console.log(data);
+      dispatch(login(data.user));
+      toast.success(data.message, { autoClose: 1000 });
+
+      setTimeout(() => {
+        navigate("/homepage");
+      }, 1000);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, { autoClose: 1000 });
+    }
+  };
+
   const getUserData = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
   //   const navigate = useNavigate();
+  console.log(userData);
 
   return (
     <>
+      <ToastContainer />
+      
       <div className=" flex justify-center items-center mt-3 ">
         <div className={`flex flex-col w-86  px-8 py-4   gap-3  bg-white`}>
           <div className="flex  gap-4 align items-center justify-center p-5">
@@ -47,16 +73,16 @@ const SignUp = () => {
                 className="flex flex-col"
                 label={"First Name"}
                 type={"text"}
-                name={"first_name"}
-                value={userData.first_name}
+                name={"firstName"}
+                value={userData.firstName}
                 placeholder={"Enter your First Name"}
                 callback={getUserData}
               />
               <Input
                 label={"Last Name"}
                 type={"text"}
-                name={"last_name"}
-                value={userData.last_name}
+                name={"lastName"}
+                value={userData.lastName}
                 callback={getUserData}
                 placeholder={"Enter your Last Name"}
               />
@@ -71,8 +97,8 @@ const SignUp = () => {
               <Input
                 label={"Contact Number"}
                 type={"tel"}
-                name={"contact_number"}
-                value={userData.contact_number}
+                name={"mobileNumber"}
+                value={userData.mobileNumber}
                 callback={getUserData}
                 placeholder={"Enter your Contact Number"}
               />
@@ -100,11 +126,8 @@ const SignUp = () => {
             {/* Name input section */}
 
             <div className={`flex flex-col gap-5`}>
-              <button
-                className={`  mt-2 self-center text-sm text-white bg-sky-500 hover:bg-sky-700 hover:text-white block px-4 py-3 rounded-[12px]  `}
-              >
-                Sign up
-              </button>
+              <Button text={"SignUp"} callback={onFormSubmit} />
+
               <p className={`text-xs text-center`}>
                 Already have an account ?{" "}
                 <span

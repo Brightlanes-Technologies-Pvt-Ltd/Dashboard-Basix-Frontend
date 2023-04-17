@@ -6,37 +6,37 @@ import { LogIn, teacherLogIn } from "../utils/api/authApI/authApi";
 import { login } from "../redux/feateres/useSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button/Button";
 
 // import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const navigate = useNavigate()
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
-  const [loginAs, setLoginAs] = useState('')
+  const [loginAs, setLoginAs] = useState("");
   const getUserData = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const onFormSubmit = async (e) => {
     try {
       e.preventDefault();
-      if (loginAs == 'admin') {
+      if (loginAs === "admin") {
         const { data } = await LogIn(userData);
         console.log(data);
         dispatch(login(data.user));
-      } else if (loginAs == 'teacher') {
+        navigate("/homepage");
+      } else if (loginAs === "teacher") {
         const { data } = await teacherLogIn(userData);
         console.log(data);
         dispatch(login(data.user));
+        navigate("/homepage");
       }
-
-      navigate('/')
     } catch (error) {
       console.log(error);
     }
@@ -44,8 +44,8 @@ const Login = () => {
   console.log(loginAs);
   return (
     <>
-      <div className="flex justify-center items-center  mt-10">
-        <div className={`flex flex-col w-96  p-8  gap-3 bg-white `}>
+      <div className="flex justify-center items-center  mt-10 ">
+        <div className={`flex flex-col w-96  p-8  gap-3 bg-white shadow-lg `}>
           <div className="flex  gap-4 align items-center justify-center p-5">
             <img
               src={Logo}
@@ -82,9 +82,21 @@ const Login = () => {
               <div>
                 <p>Login as </p>
                 <div className="flex gap-3">
-                  <input type="radio" id="admin" name="loginAs" value="admin" onClick={(e) => setLoginAs(e.target.value)} />
+                  <input
+                    type="radio"
+                    id="admin"
+                    name="loginAs"
+                    value="admin"
+                    onClick={(e) => setLoginAs(e.target.value)}
+                  />
                   <label htmlFor="admin">Admin</label>
-                  <input type="radio" id="teacher" name="loginAs" value="teacher" onClick={(e) => setLoginAs(e.target.value)} />
+                  <input
+                    type="radio"
+                    id="teacher"
+                    name="loginAs"
+                    value="teacher"
+                    onClick={(e) => setLoginAs(e.target.value)}
+                  />
                   <label htmlFor="teacher">Teacher</label>
                 </div>
               </div>
@@ -92,12 +104,8 @@ const Login = () => {
               {/* Name input section */}
 
               <div className={`flex flex-col gap-5`}>
-                <button
-                  className={`  mt-2 self-center text-sm text-white bg-sky-500 hover:bg-sky-700 hover:text-white block px-4 py-3 rounded-[12px]  `}
-                  onClick={onFormSubmit}
-                >
-                  LogIn
-                </button>
+                <Button text={"Login"} callback={onFormSubmit} />
+
                 <p className={`text-xs text-center`}>
                   Don't have an account{" "}
                   <span

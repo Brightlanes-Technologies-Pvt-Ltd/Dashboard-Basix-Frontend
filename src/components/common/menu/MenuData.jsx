@@ -2,8 +2,14 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { BsCurrencyRupee } from "react-icons/bs";
 import { FcDocument } from "react-icons/fc";
 import { FiActivity } from "react-icons/fi";
+import { BiTachometer } from "react-icons/bi";
 
 const Menus = [
+  {
+    title: "Home",
+    icon: <BiTachometer />,
+    path: "/homepage",
+  },
   {
     title: "Personal",
     icon: <MdSpaceDashboard />,

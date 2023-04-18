@@ -47,18 +47,18 @@ const Personal = () => {
   useEffect(() => {
     (async () => {
       try {
-       if(user.role === "teacher"){
-        const {
-          data: { courses },
-        } = await getCourses(user._id);
-        setCourses([...courses]);
-        // dispatch(setClass(allClass.data.classes));
-       }else {
-        const {
-          data: { courses },
-        } = await getAllCourses();
-        setCourses([...courses]);
-       }
+        if (user.role === "teacher") {
+          const {
+            data: { courses },
+          } = await getCourses(user._id);
+          setCourses([...courses]);
+          // dispatch(setClass(allClass.data.classes));
+        } else {
+          const {
+            data: { courses },
+          } = await getAllCourses();
+          setCourses([...courses]);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -67,58 +67,55 @@ const Personal = () => {
 
   return (
     <>
-      <Layout
-        heading={"Courses"}
-       
-      >
-       <div className="mr-4 flex  justify-end  z-10">
-        <Button
-          callback={showModal}
-          text={"Add Course"}
-          Icon={<AiOutlinePlus className="mt-1" />}
-          className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold"
-        />
-      </div>
-      <div className="w-36  justify-center  fixed  right-5 z-10 ">
-        {toggle.options ? (
-          <div className=" text-center rounded-md bg-white gap-x-1  shadow-lg p-2">
-            <p
-              className="  border-b hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-2 text-sm  flex  font-medium text-blue-900  py-2"
-              onClick={navigateTo}
-            >
-              Form <FaWpforms />
-            </p>
-            <p
-              className=" hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-3 text-sm  flex  font-medium text-blue-900  py-2 "
-              onClick={() => {
-                setToggle({
-                  ...toggle,
-                  modal: !toggle.modal,
-                });
-              }}
-            >
-              CSV <BsFiletypeCsv />
-            </p>
+      <Layout heading={"Courses"}>
+        <div className="mr-4 mt-2 flex  justify-end  z-10">
+          <Button
+            callback={showModal}
+            text={"Add Course"}
+            Icon={<AiOutlinePlus className="mt-1" />}
+            className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold "
+          />
+        </div>
+        <div className="w-36  justify-center  fixed  right-5 z-10 ">
+          {toggle.options ? (
+            <div className=" text-center rounded-md bg-white gap-x-1  shadow-lg p-2">
+              <p
+                className="  border-b hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-2 text-sm  flex  font-medium text-blue-900  py-2"
+                onClick={navigateTo}
+              >
+                Form <FaWpforms />
+              </p>
+              <p
+                className=" hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-3 text-sm  flex  font-medium text-blue-900  py-2 "
+                onClick={() => {
+                  setToggle({
+                    ...toggle,
+                    modal: !toggle.modal,
+                  });
+                }}
+              >
+                CSV <BsFiletypeCsv />
+              </p>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        {toggle.modal ? (
+          <div>
+            <DropZone setToggle={setToggle} />
           </div>
         ) : (
           ""
         )}
-      </div>
-      {toggle.modal ? (
-        <div>
-          <DropZone setToggle={setToggle} />
-        </div>
-      ) : (
-        ""
-      )}
-      <div
-        onClick={() =>
-          setToggle({
-            ...toggle,
-            modal: !toggle.modal,
-          })
-        }
-      >
+        <div
+          onClick={() =>
+            setToggle({
+              ...toggle,
+              modal: !toggle.modal,
+            })
+          }
+        >
           <Table title={title} tableData={courses} />
         </div>
       </Layout>

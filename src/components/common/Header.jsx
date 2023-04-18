@@ -22,7 +22,7 @@ const Header = ({ heading }) => {
       <ToastContainer />
       <div className="border-b h-12 ">
         <p className="py-3 px-3">{heading}</p>
-        <div className="flex justify-end align-middle pr-20 -top-6">
+        <div className="flex justify-end align-middle pr-20 -mt-8">
         
           <Button text={"logout"} callback={userlogOut} />
         </div>

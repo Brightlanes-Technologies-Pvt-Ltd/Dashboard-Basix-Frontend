@@ -80,8 +80,8 @@ const Login = () => {
                 placeholder={"Enter your Password"}
               />
               <div>
-                <p>Login as </p>
-                <div className="flex gap-3">
+                <p className=" rounded-sm  text-md font-medium text-slate-700 py-3 flex justify-center align-middle mb-1">Login as </p>
+                <div className="flex justify-center gap-x-3 ">
                   <input
                     type="radio"
                     id="admin"
@@ -89,7 +89,12 @@ const Login = () => {
                     value="admin"
                     onClick={(e) => setLoginAs(e.target.value)}
                   />
-                  <label htmlFor="admin">Admin</label>
+                  <label
+                    className="flex flex-col text-start text-sm text-gray-500 font-semibold "
+                    htmlFor="admin"
+                  >
+                    Admin
+                  </label>
                   <input
                     type="radio"
                     id="teacher"
@@ -97,7 +102,12 @@ const Login = () => {
                     value="teacher"
                     onClick={(e) => setLoginAs(e.target.value)}
                   />
-                  <label htmlFor="teacher">Teacher</label>
+                  <label
+                    className="flex flex-col text-start text-sm text-gray-500 font-semibold"
+                    htmlFor="teacher"
+                  >
+                    Teacher
+                  </label>
                 </div>
               </div>
 

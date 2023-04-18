@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Classes from "./components/Classes";
 import ClassForm from "./components/Form/ClassForm";
 import ProtectedRoute from "./Auth/ProtectedRoute";
+import TopicTable from "./components/Table/TopicTable";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/documents" element={<Documents />} />
             <Route path="/personal" element={<Personal />} />
             <Route path="/course/:courseId" element={<Classes />} />
+            <Route path="/description/:classId" element={<TopicTable />} />
             <Route path="/add-course" element={<ClassForm />} />
             <Route path="/homepage" element={<Homepage />} />
           </Route>

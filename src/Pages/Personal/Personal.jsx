@@ -68,7 +68,7 @@ const Personal = () => {
   return (
     <>
       <Layout heading={"Courses"}>
-        <div className="mr-4 mt-2 flex  justify-end  z-10">
+        {/* <div className="mr-4 mt-2 flex  justify-end  z-10">
           <Button
             callback={showModal}
             text={"Add Course"}
@@ -102,12 +102,12 @@ const Personal = () => {
           )}
         </div>
         {toggle.modal ? (
-          <div>
+          <div className="flex justify-center">
             <DropZone setToggle={setToggle} />
           </div>
         ) : (
           ""
-        )}
+        )} */}
         <div
           onClick={() =>
             setToggle({

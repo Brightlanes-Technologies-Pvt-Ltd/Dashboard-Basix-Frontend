@@ -3,23 +3,39 @@ import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaWpforms } from "react-icons/fa";
 import { BsFiletypeCsv } from "react-icons/bs";
+import { SlOptionsVertical } from "react-icons/sl";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAlTopicsOfAClass } from "../../utils/api/classApI/topicAPI";
 import Layout from "../Layout/Layout";
 import ClassTable from "./ClassTable";
 import Button from "../Button/Button";
+import Modal from "../Modal/Modal";
+
 const TopicTable = () => {
   const navigate = useNavigate();
   const { classId } = useParams();
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  let [isOpen, setIsOpen] = useState(true);
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
 
   const [topicData, setTopicData] = useState([]);
   const [course, setCourse] = useState([]);
   const [topicTitle, setTitle] = useState([
     "description",
+    "completed",
     "aws",
-    "materialDistributed",
+    "material Distributed",
     "test",
     "mentorship",
+    " ",
   ]);
 
   const [toggle, setToggle] = useState({
@@ -43,7 +59,7 @@ const TopicTable = () => {
   const changeAgenda = (e) => {
     setTopicData({ ...topicData, [e.target.name]: !topicData.e.target.name });
   };
-  console.log("topicdata",topicData);
+  console.log("topicdata", topicData);
   useEffect(() => {
     (async () => {
       try {
@@ -113,17 +129,17 @@ const TopicTable = () => {
           }
         ></div>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 p-8 text-sm font-semibold tracking-wide text-slate-700  ">
           <table className="w-full shadow-lg">
             <thead
-              className="bg-gray-50 border-b-2 border-gray
+              className="bg-gray-50 border-b-2 border-gray 
           "
             >
               <tr>
                 {topicTitle &&
                   topicTitle.map((thead, index) => {
                     return (
-                      <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                      <th className="p-3 text-sm font-semibold tracking-wide uppercase">
                         {thead}
                       </th>
                     );
@@ -134,10 +150,19 @@ const TopicTable = () => {
               {topicData &&
                 topicData.map((td, index) => {
                   return (
-                    <tr key={td._id}>
-                      <th>{td.description}</th>
+                    <tr
+                      className={
+                        index % 2 === 0
+                          ? "bg-blue-50 hover:text-blue-700 hover:text-lg hover:ring rounded-lg ring-offset-blue-200"
+                          : "bg-white  hover:text-blue-700 hover:text-lg hover:ring rounded-lg ring-offset-blue-200"
+                      }
+                      key={td._id}
+                    >
+                      <th className="p-3 text-sm font-semibold tracking-wide">
+                        {td.description}
+                      </th>
 
-                      <th>
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
                         <input
                           type="checkbox"
                           name="aws"
@@ -145,7 +170,15 @@ const TopicTable = () => {
                           onChange={changeAgenda}
                         />
                       </th>
-                      <th>
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
+                        <input
+                          type="checkbox"
+                          name="aws"
+                          defaultChecked={td.aws}
+                          onChange={changeAgenda}
+                        />
+                      </th>
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
                         <input
                           type="checkbox"
                           name="materialDistributed"
@@ -153,7 +186,7 @@ const TopicTable = () => {
                           onChange={changeAgenda}
                         />
                       </th>
-                      <th>
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
                         <input
                           type="checkbox"
                           name="test"
@@ -161,13 +194,17 @@ const TopicTable = () => {
                           onChange={changeAgenda}
                         />
                       </th>
-                      <th>
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
                         <input
                           type="checkbox"
                           name="mentorship"
                           defaultChecked={td.mentorship}
                           onChange={changeAgenda}
                         />
+                      </th>
+
+                      <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide flex justify-end">
+                        <SlOptionsVertical callback={openModal} />
                       </th>
                     </tr>
                   );

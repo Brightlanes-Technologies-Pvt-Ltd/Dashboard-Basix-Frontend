@@ -13,36 +13,51 @@ const ClassTable = ({ title, tableData }) => {
             {title &&
               title.map((thead, index) => {
                 return (
-                  <th className="p-3 text-sm font-semibold tracking-wide text-left">
+                  <th className="p-3 text-sm font-semibold tracking-wide uppercase">
                     {thead}
                   </th>
                 );
               })}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="ext-base  tracking-wide text-slate-700">
           {tableData &&
             tableData.map((td, index) => {
               return (
                 <tr
+                  className={
+                    index % 2 === 0
+                      ? "bg-blue-50 hover:text-blue-700 hover:text-lg hover:ring rounded-lg ring-offset-blue-200"
+                      : "bg-white  hover:text-blue-700 hover:text-lg hover:ring rounded-lg ring-offset-blue-200"
+                  }
                   key={td._id}
                   onClick={() => {
                     navigate(`/description/${td._id}`);
                   }}
                 >
-                  <th>{td.className}</th>
-                  <th>{td.description}</th>
-                  <th>{td.startDate.split("T")[0]}</th>
-                  <th>{td.endDate.split("T")[0]}</th>
-                  <th>{td.category}</th>
-                  <th>
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
+                    {td.className}
+                  </th>
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
+                    {td.description}
+                  </th>
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
+                    {td.startDate.split("T")[0]}
+                  </th>
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
+                    {td.endDate.split("T")[0]}
+                  </th>
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
+                    {td.category}
+                  </th>
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
                     {td.agendas.length > 0
                       ? td.agendas.map((value) => <span>{value}</span>)
                       : "class"}
                   </th>
 
-                  <th>{td.classHours}</th>
-                  <th>{td.status}</th>
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide ">{td.classHours}</th>
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide ">{td.status}</th>
                 </tr>
               );
             })}

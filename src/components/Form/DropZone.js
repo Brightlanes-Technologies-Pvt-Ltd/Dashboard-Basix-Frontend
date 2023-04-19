@@ -62,67 +62,70 @@ const DropZone = ({ setToggle, toggle, courseId = "" }) => {
   };
 
   return (
-    <div className="border px-3 py-1 w-2/3 h-44 fixed top-44 left-1/3 z-10 bg-gray-400 flex flex-col rounded">
-      <ToastContainer />
-      <div
-        className="self-end"
-        onClick={() => {
-          setToggle({
-            ...toggle,
-            modal: false,
-          });
-        }}
-      >
-        X
-      </div>
-      <div className="self-center">
-        <Dropzone onDrop={(acceptedFiles) => handleDropChange(acceptedFiles)}>
-          {({ getRootProps, getInputProps }) => (
-            <section>
-              {fileName === "" ? (
-                <div
-                  {...getRootProps()}
-                  className="dropzone upload-zone dz-clickable"
-                >
-                  <input {...getInputProps()} />
-
-                  <div className="text-center">
-                    <span>Drag and drop file</span>
-                    <p>or</p>
-                    <p>Select</p>
-                  </div>
-                </div>
-              ) : (
-                <div>
-                  <span>
-                    <p>Your Uploaded File </p>
-                    <u>{fileName}</u>
-                  </span>
-                  <Button
-                    onClick={uploadFromCsv}
-                    outline
-                    color="primary"
-                    className="mx-2 btn-round"
-                  >
-                    Upload Data
-                  </Button>
-                </div>
-              )}
-            </section>
-          )}
-        </Dropzone>
-      </div>
-      <div className="flex justify-between">
-        <Button text={"Upload"} callback={uploadFromCsv} />
-        <Button
-          text={"Cancel"}
-          callback={() => {
+    <div className=" w-96 gap-2 shadow-lg ">
+      <div className="cursor-pointer relative block  bg-white   p-15 z-100 ">
+        <ToastContainer />
+        <div
+          className="self-end ml-5"
+          onClick={() => {
             setToggle({
               ...toggle,
               modal: false,
             });
           }}
-        />
+        >
+          X
+        </div>
+        <div className="flex justify-center align items-center flex-col">
+          <h1 className=" mb-6">Drop Your CSV file</h1>
+          <Dropzone onDrop={(acceptedFiles) => handleDropChange(acceptedFiles)}>
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                {fileName === "" ? (
+                  <div
+                    {...getRootProps()}
+                    className="dropzone upload-zone dz-clickable border p-3 w-64 flex justify-center border-dashed border-gray-500 relative"
+                  >
+                    <input {...getInputProps()} />
+
+                    <div className="text-center ">
+                      <span>Drag and drop file</span>
+                      <p>or</p>
+                      <p>Select</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <span>
+                      <p>Your Uploaded File </p>
+                      <u>{fileName}</u>
+                    </span>
+                    <Button
+                      onClick={uploadFromCsv}
+                      outline
+                      color="primary"
+                      className="mx-2 btn-round"
+                    >
+                      Upload Data
+                    </Button>
+                  </div>
+                )}
+              </section>
+            )}
+          </Dropzone>
+        </div>
+        <div className="flex justify-between p-10">
+          <Button text={"Upload"} callback={uploadFromCsv} />
+          <Button
+            text={"Cancel"}
+            callback={() => {
+              setToggle({
+                ...toggle,
+                modal: false,
+              });
+            }}
+          />
+        </div>
       </div>
     </div>
   );

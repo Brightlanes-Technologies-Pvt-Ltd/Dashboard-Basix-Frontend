@@ -1,23 +1,37 @@
 import React, { useEffect, useState } from "react";
 
-import { AiOutlinePlus } from "react-icons/ai";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlinePlus,
+} from "react-icons/ai";
 import { FaWpforms } from "react-icons/fa";
 import { BsFiletypeCsv } from "react-icons/bs";
-import { SlOptionsVertical } from "react-icons/sl";
-import { useNavigate, useParams } from "react-router-dom";
-import { getAlTopicsOfAClass } from "../../utils/api/classApI/topicAPI";
+import { RiEditBoxLine } from "react-icons/ri";
+import { useParams } from "react-router-dom";
+import {
+  getAllTopicsOfAClass,
+  updateTopic,
+} from "../../utils/api/classApI/topicAPI";
 import Layout from "../Layout/Layout";
-import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 
-
-import ClassForm from '../Form/ClassForm'
+import ClassForm from "../Form/ClassForm";
+import DropZone from "../Form/DropZone";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import AgendaForm from "../Form/AgendaForm";
+import { ToastContainer, toast } from "react-toastify";
 const TopicTable = () => {
-  const navigate = useNavigate();
   const { classId } = useParams();
-
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showCSVModal, setShowCSVModal] = useState(false);
+  const [showAgendaModal, setShowAgendaModal] = useState(false);
 
+  const handleOnClose = () => setShowEditModal(false);
+  const handleOnCloseCSV = () => setShowCSVModal(false);
+  const handleOnCloseAgendaForm = () => setShowAgendaModal(false);
+
+  const [isOpen, setIsOpen] = useState(false);
   const [topicData, setTopicData] = useState([]);
   const [topicTitle, setTitle] = useState([
     "description",
@@ -26,101 +40,84 @@ const TopicTable = () => {
     "material Distributed",
     "test",
     "mentorship",
-    " ",
+    "Action",
   ]);
 
-  const handleOnClose = () => setShowEditModal(false);
+  const DropDownMenu = [
+    {
+      title: "Form",
+      Icon: <FaWpforms />,
+      clickHander: () => setShowEditModal(true),
+    },
+    {
+      title: "CSV",
+      Icon: <BsFiletypeCsv />,
 
-  const [toggle, setToggle] = useState({
-    options: false,
-    modal: false,
-  });
-  //   useEffect(() => {
-  //     (async () => {
-  //       try {
-  //         const {
-  //           data: { classes },
-  //         } = await classId;
-
-  //         setClasses([...classes]);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     })();
-  //   }, []);
+      clickHander: () => setShowCSVModal(true),
+    },
+  ];
 
   const changeAgenda = (e) => {
     setTopicData({ ...topicData, [e.target.name]: !topicData.e.target.name });
   };
   console.log("topicdata", topicData);
+
+  const getTopic = async () => {
+    try {
+      const { data } = await getAllTopicsOfAClass(classId);
+
+      // setCourse([{ ...course }]);
+      setTopicData([...data.topics]);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await getAlTopicsOfAClass(classId);
-
-        // setCourse([{ ...course }]);
-        setTopicData([...data.topics]);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getTopic();
   }, []);
-  const showModal = () => {
-    setToggle({
-      ...toggle,
-      options: !toggle.options,
-    });
+  const updateAgenda = async (topicId, topicData) => {
+    try {
+      const { data } = await updateTopic(topicData, topicId);
+      toast.success(data.message, { autoClose: 1000 });
+      handleOnCloseAgendaForm();
+      getTopic();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const navigateTo = () => {
-    navigate("/add-course");
-  };
   return (
     <>
+      <ToastContainer />
       <Layout heading={"classes"}>
-        <div className="mr-4 flex  justify-end  z-10">
-          <Button
-            callback={showModal}
-            text={"Add Classes"}
-            Icon={<AiOutlinePlus className="mt-1" />}
-            className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold"
-          />
+        <div className="mr-4 mt-2 flex  justify-end  z-100">
+          <button
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold bg-blue-700 "
+          >
+            Add Course {<AiOutlinePlus className="mt-1" />}
+          </button>
         </div>
-        <div className="w-36  justify-center  fixed  right-5 z-10 ">
-          {toggle.options ? (
-            <div className=" text-center rounded-md bg-white gap-x-1  shadow-lg p-2">
-              <p
-                className="  border-b hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-2 text-sm  flex  font-medium text-blue-900  py-2"
-                onClick={navigateTo}
-              >
-                Form <FaWpforms />
-              </p>
-              <p
-                className=" hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-3 text-sm  flex  font-medium text-blue-900  py-2 "
-                onClick={() => {
-                  setToggle({
-                    ...toggle,
-                    modal: !toggle.modal,
-                  });
-                }}
-              >
-                CSV <BsFiletypeCsv />
-              </p>
-            </div>
-          ) : (
-            ""
+        <div className="flex flex-col items-end mr-6 rounded-md ">
+          {isOpen && (
+            <>
+              {DropDownMenu.map((items, index) => {
+                return (
+                  <div
+                    className=" text-center  bg-white gap-x-1  shadow-lg p-2 w-32 border-r-2"
+                    onClick={items.clickHander}
+                  >
+                    <p className="   hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-2 text-sm  flex  font-medium text-blue-900  py-2">
+                      {items.title}
+                      {items.Icon}
+                    </p>
+                  </div>
+                );
+              })}
+            </>
           )}
         </div>
-
-        <div
-          onClick={() =>
-            setToggle({
-              ...toggle,
-              modal: !toggle.modal,
-            })
-          }
-        ></div>
 
         <div className="flex flex-col gap-5 p-8 text-sm font-semibold tracking-wide text-slate-700  ">
           <table className="w-full shadow-lg">
@@ -144,70 +141,111 @@ const TopicTable = () => {
                 topicData.map((td, index) => {
                   return (
                     <tr
-                      className={
-                        index % 2 === 0
-                          ? "bg-blue-50 hover:text-blue-700 hover:text-lg hover:ring rounded-lg ring-offset-blue-200"
-                          : "bg-white  hover:text-blue-700 hover:text-lg hover:ring rounded-lg ring-offset-blue-200"
-                      }
+                      className={index % 2 === 0 ? "bg-blue-50 " : "bg-white "}
                       key={td._id}
                     >
-                      <th className="p-3 text-sm font-semibold tracking-wide">
+                      <th className="p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200">
                         {td.description}
                       </th>
 
-                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
-                        <input
-                          type="checkbox"
-                          name="aws"
-                          defaultChecked={td.aws}
-                          onChange={changeAgenda}
-                        />
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200  ">
+                        {td.completed ? (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
+                            Done
+                          </span>
+                        ) : (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
+                            Pending
+                          </span>
+                        )}
                       </th>
-                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
-                        <input
-                          type="checkbox"
-                          name="aws"
-                          defaultChecked={td.aws}
-                          onChange={changeAgenda}
-                        />
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200 ">
+                        {td.aws ? (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
+                            Done
+                          </span>
+                        ) : (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
+                            Pending
+                          </span>
+                        )}
                       </th>
-                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
-                        <input
-                          type="checkbox"
-                          name="materialDistributed"
-                          defaultChecked={td.materialDistributed}
-                          onChange={changeAgenda}
-                        />
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200 ">
+                        {" "}
+                        {td.materialDistributed ? (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
+                            Done
+                          </span>
+                        ) : (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
+                            Pending
+                          </span>
+                        )}
                       </th>
-                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
-                        <input
-                          type="checkbox"
-                          name="test"
-                          defaultChecked={td.test}
-                          onChange={changeAgenda}
-                        />
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200 ">
+                        {td.test ? (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
+                            Done
+                          </span>
+                        ) : (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
+                            Pending
+                          </span>
+                        )}
                       </th>
-                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
-                        <input
-                          type="checkbox"
-                          name="mentorship"
-                          defaultChecked={td.mentorship}
-                          onChange={changeAgenda}
-                        />
+                      <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200 ">
+                        {td.mentorship ? (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
+                            Done
+                          </span>
+                        ) : (
+                          <span class="px-3 py-1.5 text-xs font-medium  tracking-wider text-red-800 bg-red-200 rounded-lg bg-opacity-50">
+                            Pending
+                          </span>
+                        )}
                       </th>
 
-                      <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide flex justify-end">
-                        <Modal
-                          onClose={handleOnClose}
-                          visible={showEditModal}
-                        >{<ClassForm /> }</Modal>
+                      <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide  flex justify-center ">
+                        <div className="flex flex-row gap-x-3  ">
+                          <RiEditBoxLine
+                            onClick={() => setShowAgendaModal(true)}
+                            className="text-lg hover:text-2xl fill-blue-700"
+                          />
 
-                        <div>
-                          <SlOptionsVertical
+                          <AiOutlineEye
                             onClick={() => setShowEditModal(true)}
+                            className="text-lg hover:text-2xl fill-blue-700"
+                          />
+                          <MdOutlineDeleteOutline
+                            onClick={() => setShowCSVModal(true)}
+                            className="text-lg hover:text-2xl fill-blue-700"
                           />
                         </div>
                       </th>
+                      <Modal
+                        onClose={handleOnClose}
+                        visible={showEditModal}
+                        children={<ClassForm />}
+                        ModalHeading={"Add a new class"}
+                      />
+                      <Modal
+                        onClose={handleOnCloseCSV}
+                        visible={showCSVModal}
+                        ModalHeading={"Uplaod Your CSV file"}
+                      >
+                        <DropZone handleOnCloseCSV={handleOnClose} />
+                      </Modal>
+                      <Modal
+                        onClose={handleOnCloseAgendaForm}
+                        visible={showAgendaModal}
+                        ModalHeading={"Update Your Agendas"}
+                      >
+                        <AgendaForm
+                          topicId={td._id}
+                          handleOnCloseAgendaForm={handleOnCloseAgendaForm}
+                          updateAgenda={updateAgenda}
+                        />
+                      </Modal>
                     </tr>
                   );
                 })}

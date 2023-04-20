@@ -1,24 +1,19 @@
-import { SlOptionsVertical } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
-import Pagination from "../Pagination/Pagination";
 import { useState } from "react";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { AiOutlineEye } from "react-icons/ai";
+import { RiEditBoxLine } from "react-icons/ri";
+import Modal from "../Modal/Modal";
+import ClassForm from "../Form/ClassForm";
+import DropZone from "../Form/DropZone";
 
 const Table = ({ title, tableData, data }) => {
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const totalPages = data ? Math.ceil(data.length / itemsPerPage) : 0;
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data
-    ? data.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
-
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showCSVModal, setShowCSVModal] = useState(false);
+  const handleOnClose = () => setShowEditModal(false);
+  const handleOnCloseCSV = () => setShowCSVModal(false);
   return (
     <div className="p-5 max-h-full bg-gray-100 ">
       <table className="w-full shadow-lg">
@@ -68,21 +63,46 @@ const Table = ({ title, tableData, data }) => {
                     {td.enrolledStudents}
                   </th>
                   <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
-                    {td.status}
+                    <div className="px-3 py-1.5 text-xs font-medium  tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
+                      {td.status}
+                    </div>{" "}
                   </th>
-                  {/* <th className=" cursor-pointer  p-3 text-sm font-semibold tracking-wide flex justify-end">
-                    <SlOptionsVertical  />
-                  </th> */}
+
+                  <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide  flex justify-center ">
+                    <div className="flex flex-row gap-x-3  ">
+                      <RiEditBoxLine
+                        onClick={() => setShowCSVModal(true)}
+                        className="text-lg hover:text-2xl fill-blue-700"
+                      />
+
+                      <AiOutlineEye
+                        onClick={() => setShowEditModal(true)}
+                        className="text-lg hover:text-2xl fill-blue-700"
+                      />
+                      <MdOutlineDeleteOutline
+                        onClick={() => setShowCSVModal(true)}
+                        className="text-lg hover:text-2xl fill-blue-700"
+                      />
+                    </div>
+                  </th>
+                  <Modal
+                    onClose={handleOnClose}
+                    visible={showEditModal}
+                    children={<ClassForm />}
+                    ModalHeading={"Add a new class"}
+                  />
+                  <Modal
+                    onClose={handleOnCloseCSV}
+                    visible={showCSVModal}
+                    ModalHeading={"Uplaod Your CSV file"}
+                  >
+                    <DropZone handleOnCloseCSV={handleOnCloseCSV} />
+                  </Modal>
                 </tr>
               );
             })}
         </tbody>
       </table>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
     </div>
   );
 };

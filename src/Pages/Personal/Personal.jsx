@@ -1,36 +1,25 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
-import { read, utils } from "xlsx";
 import Table from "../../components/Table/Table";
-import { getClasses } from "../../utils/api/classApI/classApi";
-import { setClass } from "../../redux/feateres/classSlice";
-import { useDispatch, useSelector } from "react-redux";
-import Button from "../../components/Button/Button";
+
+import { useSelector } from "react-redux";
 import { getAllCourses, getCourses } from "../../utils/api/course_API";
-import { all } from "axios";
-import Classes from "../../components/Classes";
-import { useNavigate } from "react-router-dom";
 import DropZone from "../../components/Form/DropZone";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaWpforms } from "react-icons/fa";
 import { BsFiletypeCsv } from "react-icons/bs";
 import Modal from "../../components/Modal/Modal";
+import ClassForm from "../../components/Form/ClassForm";
 
 const Personal = () => {
-  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   console.log(user.role);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showCSVModal, setShowCSVModal] = useState(false);
   const handleOnClose = () => setShowEditModal(false);
+  const handleOnCloseCSV = () => setShowCSVModal(false);
 
   const [isOpen, setIsOpen] = useState(false);
-
-  const toggleOpen = () => {
-    setIsOpen((prev) => !prev);
-  };
-  const navigateTo = () => {
-    navigate("/add-course");
-  };
 
   const [courses, setCourses] = useState([]);
   const [title, setTitle] = useState([
@@ -41,17 +30,6 @@ const Personal = () => {
     "enrolledStudents",
     "status",
   ]);
-  const [toggle, setToggle] = useState({
-    options: false,
-    modal: false,
-  });
-
-  const showModal = () => {
-    setToggle({
-      ...toggle,
-      options: !toggle.options,
-    });
-  };
 
   useEffect(() => {
     (async () => {
@@ -78,20 +56,20 @@ const Personal = () => {
     {
       title: "Form",
       Icon: <FaWpforms />,
-      clickHander: navigateTo,
+      clickHander: () => setShowEditModal(true),
     },
     {
       title: "CSV",
       Icon: <BsFiletypeCsv />,
 
-      clickHander: () => setShowEditModal(true),
+      clickHander: () => setShowCSVModal(true),
     },
   ];
 
   return (
     <>
       <Layout heading={"Courses"}>
-        <div className="mr-4 mt-2 flex  justify-end  z-100">
+        <div className="mr-4 mt-2 flex  justify-end  ">
           <button
             onClick={() => setIsOpen((prev) => !prev)}
             className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold bg-blue-700 "
@@ -122,6 +100,12 @@ const Personal = () => {
         <Modal
           onClose={handleOnClose}
           visible={showEditModal}
+          children={<ClassForm className="z-100 flex px-10" />}
+          ModalHeading={"Add a new class"}
+        />
+        <Modal
+          onClose={handleOnCloseCSV}
+          visible={showCSVModal}
           children={<DropZone className="z-100" />}
           ModalHeading={"Uplaod Your CSV file"}
         />

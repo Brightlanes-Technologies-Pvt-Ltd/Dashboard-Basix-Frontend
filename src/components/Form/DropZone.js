@@ -10,7 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Button from "../Button/Button";
 import { createCourseFromCSV } from "../../utils/api/course_API";
 
-const DropZone = ({ setToggle, toggle, courseId = "", onClose }) => {
+const DropZone = ({ setToggle, toggle, courseId = "", handleOnCloseCSV }) => {
   const [file, setFiles] = useState();
   const [fileName, setFileName] = useState("");
   const handleDropChange = (acceptedFiles) => {
@@ -20,10 +20,6 @@ const DropZone = ({ setToggle, toggle, courseId = "", onClose }) => {
   };
 
   const dispatch = useDispatch();
-
-  const [showEditModal, setShowEditModal] = useState(false);
-
-  const handleOnClose = () => setShowEditModal(false);
 
   const uploadFromCsv = async () => {
     if (file) {
@@ -110,7 +106,7 @@ const DropZone = ({ setToggle, toggle, courseId = "", onClose }) => {
         <div className="flex justify-between p-10">
           <Button text={"Upload"} callback={uploadFromCsv} />
           <Button
-              onClick={() => setShowEditModal(false)}
+            callback={handleOnCloseCSV}
             text={"Discard"}
             color={"bg-red-600 "}
             hover={"hover:bg-red-800"}

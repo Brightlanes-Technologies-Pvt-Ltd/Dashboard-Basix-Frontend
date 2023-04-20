@@ -13,7 +13,7 @@ export const createTopic = async (topicData) => {
   );
 };
 
-export const getAlTopicsOfAClass = async (classId) => {
+export const getAllTopicsOfAClass = async (classId) => {
   const url = `${baseUrl}/${classId}`;
   return await axios.get(url, {
     withCredentials: true,
@@ -21,7 +21,7 @@ export const getAlTopicsOfAClass = async (classId) => {
 };
 
 export const updateTopic = async (topicData, topicId) => {
-  const url = `${baseUrl}/topic/update/${topicId}`;
+  const url = `${baseUrl}/update/${topicId}`;
   return await axios.put(
     url,
     { ...topicData },
@@ -29,4 +29,11 @@ export const updateTopic = async (topicData, topicId) => {
       withCredentials: true,
     }
   );
+};
+
+export const getATopicbyId = async (topicId) => {
+  const url = `${baseUrl}/getsingletopic/${topicId}`;
+  return await axios.get(url, {
+    withCredentials: true,
+  });
 };

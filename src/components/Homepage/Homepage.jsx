@@ -6,6 +6,7 @@ import Layout from "../Layout/Layout";
 import Calendar from "../Calnedar/Calendar";
 import Modal from "../Modal/Modal";
 import { Pagination } from "reactstrap";
+import AgendaForm from "../Form/AgendaForm";
 // import Modal from "../Modal/Modal";
 // import Button from "../Button/Button";
 // import ClassForm from "../Form/ClassForm";
@@ -14,7 +15,8 @@ const Homepage = () => {
   return (
     <>
       <Layout>
-        <Modal />
+        <AgendaForm />
+        {/* <Modal /> */}
         {/* <Pagination /> */}
 
         {/* <Calendar /> */}

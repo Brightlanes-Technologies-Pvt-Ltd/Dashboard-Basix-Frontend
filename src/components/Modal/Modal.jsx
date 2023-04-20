@@ -12,7 +12,7 @@ const Modal = ({ visible, onClose, ModalHeading, children }) => {
       <div
         id="container"
         onClick={handleOnclose}
-        className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex   lef-1/2  justify-center items-center"
+        className="fixed inset-0 bg-black  bg-opacity-20 backdrop-blur-sm flex   lef-1/2  justify-center items-center"
       >
         <div className="flex flex-col bg-white p-2 rounded shadow-md ">
           <GrFormClose onClick={onClose} className="cursor-pointer"/>

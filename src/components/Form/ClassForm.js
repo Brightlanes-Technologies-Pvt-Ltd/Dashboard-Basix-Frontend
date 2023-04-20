@@ -281,15 +281,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
   }, [id, classData.faculty]);
 
   return (
-    <Layout
-      heading={"Courses"}
-      buttons={[
-        {
-          text: "Back",
-          callback: navigateBack,
-        },
-      ]}
-    >
+    <>
       <form
         className="flex flex-col items-center justify-center gap-4"
         onSubmit={handleFormSubmit}
@@ -503,7 +495,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
             <ul className="flex justify-between ">
               <li className="">
                 {id === null ? (
-                  <Button  callback={handleFormSubmit} text={"Add class"} />
+                  <Button callback={handleFormSubmit} text={"Add class"} />
                 ) : (
                   <Button callback={updateAClass} text={"Update class"} />
                 )}
@@ -520,7 +512,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
           </div>
         </div>
       </form>
-    </Layout>
+    </>
   );
 };
 

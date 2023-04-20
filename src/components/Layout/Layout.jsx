@@ -2,8 +2,7 @@ import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../common/Header";
 
-
-const Layout = ({ children, heading = "", Button = [] }) => {
+const Layout = ({ children, heading = "" }) => {
   return (
     <>
       <div className="  ">
@@ -11,10 +10,7 @@ const Layout = ({ children, heading = "", Button = [] }) => {
           <Sidebar />
           <div className="flex-1">
             <Header heading={heading} />
-            <div>
-          
-              {children}
-            </div>
+            <div>{children}</div>
           </div>
         </div>
       </div>

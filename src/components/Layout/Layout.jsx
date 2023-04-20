@@ -1,7 +1,7 @@
 import React from "react";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../common/Header";
-import TopHeader from "../common/TopHeader";
+
 
 const Layout = ({ children, heading = "", Button = [] }) => {
   return (
@@ -12,7 +12,7 @@ const Layout = ({ children, heading = "", Button = [] }) => {
           <div className="flex-1">
             <Header heading={heading} />
             <div>
-              <TopHeader buttons={Button} />
+          
               {children}
             </div>
           </div>

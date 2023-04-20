@@ -7,27 +7,18 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAlTopicsOfAClass } from "../../utils/api/classApI/topicAPI";
 import Layout from "../Layout/Layout";
-import ClassTable from "./ClassTable";
 import Button from "../Button/Button";
 import Modal from "../Modal/Modal";
 
+
+import ClassForm from '../Form/ClassForm'
 const TopicTable = () => {
   const navigate = useNavigate();
   const { classId } = useParams();
 
   const [showEditModal, setShowEditModal] = useState(false);
-  let [isOpen, setIsOpen] = useState(true);
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
 
   const [topicData, setTopicData] = useState([]);
-  const [course, setCourse] = useState([]);
   const [topicTitle, setTitle] = useState([
     "description",
     "completed",
@@ -37,6 +28,8 @@ const TopicTable = () => {
     "mentorship",
     " ",
   ]);
+
+  const handleOnClose = () => setShowEditModal(false);
 
   const [toggle, setToggle] = useState({
     options: false,
@@ -204,7 +197,16 @@ const TopicTable = () => {
                       </th>
 
                       <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide flex justify-end">
-                        <SlOptionsVertical callback={openModal} />
+                        <Modal
+                          onClose={handleOnClose}
+                          visible={showEditModal}
+                        >{<ClassForm /> }</Modal>
+
+                        <div>
+                          <SlOptionsVertical
+                            onClick={() => setShowEditModal(true)}
+                          />
+                        </div>
                       </th>
                     </tr>
                   );

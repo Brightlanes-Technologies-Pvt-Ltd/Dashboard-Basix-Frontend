@@ -14,11 +14,24 @@ import DropZone from "../../components/Form/DropZone";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaWpforms } from "react-icons/fa";
 import { BsFiletypeCsv } from "react-icons/bs";
+import Modal from "../../components/Modal/Modal";
 
 const Personal = () => {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   console.log(user.role);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleOnClose = () => setShowEditModal(false);
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleOpen = () => {
+    setIsOpen((prev) => !prev);
+  };
+  const navigateTo = () => {
+    navigate("/add-course");
+  };
+
   const [courses, setCourses] = useState([]);
   const [title, setTitle] = useState([
     "courseName",
@@ -32,10 +45,6 @@ const Personal = () => {
     options: false,
     modal: false,
   });
-
-  const navigateTo = () => {
-    navigate("/add-course");
-  };
 
   const showModal = () => {
     setToggle({
@@ -65,57 +74,59 @@ const Personal = () => {
     })();
   }, []);
 
+  const DropDownMenu = [
+    {
+      title: "Form",
+      Icon: <FaWpforms />,
+      clickHander: navigateTo,
+    },
+    {
+      title: "CSV",
+      Icon: <BsFiletypeCsv />,
+
+      clickHander: () => setShowEditModal(true),
+    },
+  ];
+
   return (
     <>
       <Layout heading={"Courses"}>
-        {/* <div className="mr-4 mt-2 flex  justify-end  z-10">
-          <Button
-            callback={showModal}
-            text={"Add Course"}
-            Icon={<AiOutlinePlus className="mt-1" />}
-            className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold "
-          />
+        <div className="mr-4 mt-2 flex  justify-end  z-100">
+          <button
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold bg-blue-700 "
+          >
+            Add Course {<AiOutlinePlus className="mt-1" />}
+          </button>
         </div>
-        <div className="w-36  justify-center  fixed  right-5 z-10 ">
-          {toggle.options ? (
-            <div className=" text-center rounded-md bg-white gap-x-1  shadow-lg p-2">
-              <p
-                className="  border-b hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-2 text-sm  flex  font-medium text-blue-900  py-2"
-                onClick={navigateTo}
-              >
-                Form <FaWpforms />
-              </p>
-              <p
-                className=" hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-3 text-sm  flex  font-medium text-blue-900  py-2 "
-                onClick={() => {
-                  setToggle({
-                    ...toggle,
-                    modal: !toggle.modal,
-                  });
-                }}
-              >
-                CSV <BsFiletypeCsv />
-              </p>
-            </div>
-          ) : (
-            ""
+        <div className="flex flex-col items-end mr-6 rounded-md ">
+          {isOpen && (
+            <>
+              {DropDownMenu.map((items, index) => {
+                return (
+                  <div
+                    className=" text-center  bg-white gap-x-1  shadow-lg p-2 w-32 border-r-2"
+                    onClick={items.clickHander}
+                  >
+                    <p className="   hover:bg-sky-100 hover:shadow-sm rounded-md justify-center gap-x-2 text-sm  flex  font-medium text-blue-900  py-2">
+                      {items.title}
+                      {items.Icon}
+                    </p>
+                  </div>
+                );
+              })}
+            </>
           )}
         </div>
-        {toggle.modal ? (
-          <div className="flex justify-center">
-            <DropZone setToggle={setToggle} />
-          </div>
-        ) : (
-          ""
-        )} */}
-        <div
-          onClick={() =>
-            setToggle({
-              ...toggle,
-              modal: !toggle.modal,
-            })
-          }
-        >
+
+        <Modal
+          onClose={handleOnClose}
+          visible={showEditModal}
+          children={<DropZone className="z-100" />}
+          ModalHeading={"Uplaod Your CSV file"}
+        />
+
+        <div>
           <Table title={title} tableData={courses} />
         </div>
       </Layout>

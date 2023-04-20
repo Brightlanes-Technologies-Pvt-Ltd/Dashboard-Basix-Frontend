@@ -10,7 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Button from "../Button/Button";
 import { createCourseFromCSV } from "../../utils/api/course_API";
 
-const DropZone = ({ setToggle, toggle, courseId = "" }) => {
+const DropZone = ({ setToggle, toggle, courseId = "", onClose }) => {
   const [file, setFiles] = useState();
   const [fileName, setFileName] = useState("");
   const handleDropChange = (acceptedFiles) => {
@@ -20,6 +20,10 @@ const DropZone = ({ setToggle, toggle, courseId = "" }) => {
   };
 
   const dispatch = useDispatch();
+
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const handleOnClose = () => setShowEditModal(false);
 
   const uploadFromCsv = async () => {
     if (file) {
@@ -62,22 +66,11 @@ const DropZone = ({ setToggle, toggle, courseId = "" }) => {
   };
 
   return (
-    <div className=" w-96 gap-2 shadow-lg ">
+    <div className=" w-96 gap-2 mt-8 ">
       <div className="cursor-pointer relative block  bg-white   p-15 z-100 ">
         <ToastContainer />
-        <div
-          className="self-end ml-5"
-          onClick={() => {
-            setToggle({
-              ...toggle,
-              modal: false,
-            });
-          }}
-        >
-          X
-        </div>
+
         <div className="flex justify-center align items-center flex-col">
-          <h1 className=" mb-6">Drop Your CSV file</h1>
           <Dropzone onDrop={(acceptedFiles) => handleDropChange(acceptedFiles)}>
             {({ getRootProps, getInputProps }) => (
               <section>
@@ -117,13 +110,10 @@ const DropZone = ({ setToggle, toggle, courseId = "" }) => {
         <div className="flex justify-between p-10">
           <Button text={"Upload"} callback={uploadFromCsv} />
           <Button
-            text={"Cancel"}
-            callback={() => {
-              setToggle({
-                ...toggle,
-                modal: false,
-              });
-            }}
+              onClick={() => setShowEditModal(false)}
+            text={"Discard"}
+            color={"bg-red-600 "}
+            hover={"hover:bg-red-800"}
           />
         </div>
       </div>

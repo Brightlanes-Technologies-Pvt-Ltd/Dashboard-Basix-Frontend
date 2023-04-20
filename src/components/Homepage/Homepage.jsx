@@ -14,8 +14,9 @@ const Homepage = () => {
   return (
     <>
       <Layout>
-        <Pagination />
-  
+        <Modal />
+        {/* <Pagination /> */}
+
         {/* <Calendar /> */}
       </Layout>
     </>

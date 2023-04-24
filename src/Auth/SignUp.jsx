@@ -44,8 +44,7 @@ const SignUp = () => {
   const getUserData = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
-  //   const navigate = useNavigate();
-  console.log(userData);
+
 
   return (
     <>

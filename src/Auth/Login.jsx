@@ -7,6 +7,7 @@ import { login } from "../redux/feateres/useSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button/Button";
+import { Link } from "react-router-dom";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -41,7 +42,6 @@ const Login = () => {
       console.log(error);
     }
   };
-  console.log(loginAs);
   return (
     <>
       <div className="flex justify-center items-center  mt-10 ">
@@ -80,7 +80,9 @@ const Login = () => {
                 placeholder={"Enter your Password"}
               />
               <div>
-                <p className=" rounded-sm  text-md font-medium text-slate-700 py-3 flex justify-center align-middle mb-1">Login as </p>
+                <p className=" rounded-sm  text-md font-medium text-slate-700 py-3 flex justify-center align-middle mb-1">
+                  Login as{" "}
+                </p>
                 <div className="flex justify-center gap-x-3 ">
                   <input
                     type="radio"
@@ -116,14 +118,16 @@ const Login = () => {
               <div className={`flex flex-col gap-5`}>
                 <Button text={"Login"} callback={onFormSubmit} />
 
-                <p className={`text-xs text-center`}>
-                  Don't have an account{" "}
-                  <span
-                    className={`text-sky-700 hover:cursor-pointer hover:text-sky-500`}
-                  >
-                    Create New Account
-                  </span>
-                </p>
+                <Link to={"/signup"}>
+                  <p className={`text-xs text-center`}>
+                    Don't have an account{" "}
+                    <span
+                      className={`text-sky-700 hover:cursor-pointer hover:text-sky-500`}
+                    >
+                      Create New Account
+                    </span>
+                  </p>
+                </Link>
               </div>
             </div>
           </div>

@@ -13,7 +13,6 @@ import ClassForm from "../../components/Form/ClassForm";
 
 const Personal = () => {
   const { user } = useSelector((state) => state.user);
-  console.log(user.role);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCSVModal, setShowCSVModal] = useState(false);
   const handleOnClose = () => setShowEditModal(false);

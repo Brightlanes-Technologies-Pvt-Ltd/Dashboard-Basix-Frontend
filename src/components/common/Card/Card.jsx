@@ -2,13 +2,13 @@ import React from "react";
 
 const Card = ({ children }) => {
   return (
-    <div className="">
-      <div className={`grid`}>
-        <div className="flex  gap-4 align items-center justify-center p-5">
+    <>
+      <div className="   flex align-middle items-center justify-center  ">
+        <div className="flex align-middle items-center shadow-md rounded-md bg-white justify-center  ">
           {children}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

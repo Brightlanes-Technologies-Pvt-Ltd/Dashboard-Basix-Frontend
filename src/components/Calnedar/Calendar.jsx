@@ -40,8 +40,6 @@ const Calendar = () => {
       });
     updateEvent([...events]);
   };
-  console.log(allClasses);
-
   useEffect(() => {
     if (allClasses.length > 0) {
       displayEventsInCalender();

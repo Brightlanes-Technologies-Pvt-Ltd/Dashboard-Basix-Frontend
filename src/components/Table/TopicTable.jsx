@@ -21,20 +21,29 @@ import DropZone from "../Form/DropZone";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import AgendaForm from "../Form/AgendaForm";
 import { ToastContainer, toast } from "react-toastify";
+import DeleteModal from "../Modal/DeleteModal";
+
 const TopicTable = () => {
   const { classId } = useParams();
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCSVModal, setShowCSVModal] = useState(false);
   const [showAgendaModal, setShowAgendaModal] = useState(false);
+  const [deleteModal, setShowDeleteModal] = useState(false);
+
+  const [topicID, setTopicID] = useState();
 
   const handleOnClose = () => setShowEditModal(false);
   const handleOnCloseCSV = () => setShowCSVModal(false);
   const handleOnCloseAgendaForm = () => setShowAgendaModal(false);
+  const handleOnCloseDelete = () => setShowDeleteModal(false);
 
   const [isOpen, setIsOpen] = useState(false);
   const [topicData, setTopicData] = useState([]);
   const [topicTitle, setTitle] = useState([
     "description",
+    "startDate",
+    "endDate",
+    "No.of Hours",
     "completed",
     "aws",
     "material Distributed",
@@ -60,13 +69,16 @@ const TopicTable = () => {
   const changeAgenda = (e) => {
     setTopicData({ ...topicData, [e.target.name]: !topicData.e.target.name });
   };
-  console.log("topicdata", topicData);
+
+  const editTopic = (id) => {
+    setTopicID(id);
+    setShowAgendaModal(true);
+  };
 
   const getTopic = async () => {
     try {
       const { data } = await getAllTopicsOfAClass(classId);
 
-      // setCourse([{ ...course }]);
       setTopicData([...data.topics]);
       console.log(data);
     } catch (error) {
@@ -147,6 +159,14 @@ const TopicTable = () => {
                       <th className="p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200">
                         {td.description}
                       </th>
+                      <th className="p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200">
+                        {td.startDate}
+                      </th>
+                      <th className="p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200">
+                        {td.endDate}
+                      </th>
+
+                      <th>{td.topicHours}</th>
 
                       <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200  ">
                         {td.completed ? (
@@ -208,16 +228,18 @@ const TopicTable = () => {
                       <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide  flex justify-center ">
                         <div className="flex flex-row gap-x-3  ">
                           <RiEditBoxLine
-                            onClick={() => setShowAgendaModal(true)}
+                            onClick={() => {
+                              editTopic(td._id);
+                            }}
                             className="text-lg hover:text-2xl fill-blue-700"
                           />
 
                           <AiOutlineEye
-                            onClick={() => setShowEditModal(true)}
+                            onClick={() => setShowCSVModal(true)}
                             className="text-lg hover:text-2xl fill-blue-700"
                           />
                           <MdOutlineDeleteOutline
-                            onClick={() => setShowCSVModal(true)}
+                            onClick={() => setShowDeleteModal(true)}
                             className="text-lg hover:text-2xl fill-blue-700"
                           />
                         </div>
@@ -235,13 +257,21 @@ const TopicTable = () => {
                       >
                         <DropZone handleOnCloseCSV={handleOnClose} />
                       </Modal>
+
+                      <Modal
+                        onClose={handleOnCloseDelete}
+                        visible={deleteModal}
+                      >
+                        <DeleteModal />
+                      </Modal>
+
                       <Modal
                         onClose={handleOnCloseAgendaForm}
                         visible={showAgendaModal}
                         ModalHeading={"Update Your Agendas"}
                       >
                         <AgendaForm
-                          topicId={td._id}
+                          topicId={topicID}
                           handleOnCloseAgendaForm={handleOnCloseAgendaForm}
                           updateAgenda={updateAgenda}
                         />

@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const Charts = () => {
   return (
-    <div>Charts</div>
-  )
-}
+    <div>
+      charts
+    </div>
+  );
+};
 
-export default Charts
+export default Charts;

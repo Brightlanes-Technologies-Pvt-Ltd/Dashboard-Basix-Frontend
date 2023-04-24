@@ -6,12 +6,13 @@ const Input = ({
   name,
   value,
   placeholder,
+  defaultChecked = false,
 
   secondCallback = () => {},
   callback = () => {},
   disabled = false,
   color = "",
-  border="border",
+  border = "border",
   height = "",
   aftertext = "*",
   labelClassName = "block",
@@ -34,6 +35,7 @@ const Input = ({
         onChange={(e) => callback(e)}
         onClick={(e) => secondCallback(e)}
         disabled={disabled}
+        defaultChecked={defaultChecked}
       />
       {/* {formErrors.nameError.status ? (
       <p className={`text-red-500 text-xs  mx-1`}>

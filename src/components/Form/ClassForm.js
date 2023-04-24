@@ -168,7 +168,6 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
         return value;
       }
     });
-    // console.log(newCkeckBoxes);
     setCheckboxes([...newCkeckBoxes]);
   };
 
@@ -321,7 +320,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
 
           <div>
             <div className="flex flex-row">
-              <label className="block text-sm font-medium text-slate-700">
+              <label className="flex text-sm font-medium text-slate-700">
                 Start Date &amp; Time
               </label>
               <div>
@@ -362,16 +361,18 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
 
           <div>
             <div>
-              <label className="block text-sm font-medium text-slate-700">
+              <label className="flex text-sm font-medium text-slate-700">
                 End Date &amp; Time
               </label>
               <div>
                 <div>
                   <div>
                     <DatePicker
+                        
                       selected={classData.endDate}
                       onChange={(date) =>
-                        setClassData({ ...classData, endDate: date })
+                        setClassData({ ...classData, endDate: date }) 
+                    
                       }
                       className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
                     />
@@ -460,7 +461,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
             </div>
           </div>
           {/* --------------------------tick check box-------------------------------------- */}
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <label className="block text-sm font-medium text-slate-700">
               {" "}
               Agendas
@@ -470,15 +471,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
               <ul className="flex gap-2">
                 {checkboxes.map((checkbox) => (
                   <li key={checkbox.id}>
-                    {/* <Input
-                  className="form-check-Input me-1"
-                  type="checkbox"
-                  checked={checkbox.checked}
-                  id={checkbox.id}
-                  value={checkbox.label}
-                  name={checkbox.label}
-                  onClick={handleCheckboxChange}
-                /> */}
+                 
                     <Input
                       label={checkbox.label}
                       type={"checkbox"}
@@ -490,7 +483,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
                 ))}
               </ul>
             </div>
-          </div>
+          </div> */}
           <div>
             <ul className="flex justify-between ">
               <li className="">

@@ -5,7 +5,6 @@ import { Outlet, Navigate, useLocation } from "react-router-dom";
 const ProtectedRoute = ({ role }) => {
   const location = useLocation();
   const loggedInUser = useSelector((state) => state.user.user);
-  console.log(loggedInUser);
 
   return loggedInUser.status === true ? (
     <Outlet />

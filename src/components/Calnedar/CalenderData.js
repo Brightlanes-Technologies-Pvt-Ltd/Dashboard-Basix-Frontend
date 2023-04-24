@@ -35,7 +35,6 @@ var month = [
   "November",
   "December",
 ];
-console.log();
 export const returnDate = (date) => {
   console.log("returnDate", date);
   // 2023-04-01T17:47:13.000Z

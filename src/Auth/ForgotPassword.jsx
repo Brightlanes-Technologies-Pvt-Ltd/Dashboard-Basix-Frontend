@@ -48,7 +48,6 @@ const ForgotPassword = () => {
         setLoading(false);
         toast.success(response.data.message);
         setSuccess(true);
-        console.log(response);
       } catch (error) {
         toast.error(error.response.data);
         setLoading(false);

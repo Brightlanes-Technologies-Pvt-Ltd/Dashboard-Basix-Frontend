@@ -7,7 +7,12 @@ import Button from "../Button/Button";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
+const AgendaForm = ({
+  topicId,
+  handleOnCloseAgendaForm,
+  updateAgenda,
+  createAgendaTopic,
+}) => {
   const [topicData, setTopicData] = useState({});
 
   const [description, setDescription] = useState({
@@ -19,7 +24,7 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
     topicHours: 0,
     completed: "",
     aws: false,
-    material_Distributed: false,
+    materialDistributed: false,
     test: false,
     mentorship: false,
     Action: "",
@@ -71,7 +76,7 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
             topicHours,
             completed,
             aws,
-            material_Distributed,
+            materialDistributed,
             test,
             mentorship,
           },
@@ -87,7 +92,7 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
         topicHours,
         completed,
         aws,
-        material_Distributed,
+        materialDistributed,
         test,
         mentorship,
       });
@@ -97,7 +102,9 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
   };
 
   useEffect(() => {
-    SingleTopic();
+    if (topicId) {
+      SingleTopic();
+    }
   }, []);
 
   return (
@@ -179,7 +186,7 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
             type={"number"}
             name={"topicHours"}
             value={description.topicHours}
-            defaultChecked={description.topicHours}
+            checked={description.topicHours}
             labelClassName="flex flex-col justify-center align-center"
             inputClassName="text-sm flex  justify-center text-slate-400 mt-3 ml-1 py-1 px-2 rounded-md focus:outline-none focus:border-sky-500  focus:ring-sky-500 focus:ring-1 "
             aftertext="none"
@@ -199,17 +206,17 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
             labelClassName="ml-1"
             // value={description.completed}
             secondCallback={getAgendaData}
-            defaultChecked={description.completed}
+            checked={description.completed}
             inputClassName=" mx-20 my-3"
             aftertext="none"
             block=""
           />
-          <input type="checkbox" defaultChecked={true} />
+  
           <Input
             label={"AWS"}
             type={"checkbox"}
             name={"aws"}
-            defaultChecked={description.aws}
+            checked={description.aws}
             value={description.aws}
             secondCallback={getAgendaData}
             inputClassName="my-3  mx-32"
@@ -224,7 +231,7 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
             name={"materialDistributed"}
             value={description.materialDistributed}
             secondCallback={getAgendaData}
-            defaultChecked={description.materialDistributed}
+            checked={description.materialDistributed}
             inputClassName="my-3 ml-1.5"
             aftertext="none"
             block=""
@@ -236,7 +243,7 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
             labelClassName="ml-2.5"
             value={description.test}
             secondCallback={getAgendaData}
-            defaultChecked={description.test}
+            checked={description.test}
             inputClassName="my-3 ml-32"
             aftertext="none"
             block=""
@@ -248,7 +255,7 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
             name={"mentorship"}
             value={description.mentorship}
             secondCallback={getAgendaData}
-            defaultChecked={description.mentorship}
+            checked={description.mentorship}
             inputClassName="ml-20 my-3"
             aftertext="none"
             block=""
@@ -258,14 +265,25 @@ const AgendaForm = ({ topicId, handleOnCloseAgendaForm, updateAgenda }) => {
 
       <ul className="flex justify-between ">
         <li className="">
-          <button
-            onClick={() => {
-              updateAgenda(topicId, description);
-            }}
-            className="mt-2 self-center bg-blue-700 text-sm text-white hover:bg-blue-900 block px-4 py-3 rounded-[12px]  drop-shadow-xl font-semibold"
-          >
-            Update
-          </button>
+          {topicId !== null ? (
+            <button
+              onClick={() => {
+                updateAgenda(topicId, description);
+              }}
+              className="mt-2 self-center bg-blue-700 text-sm text-white hover:bg-blue-900 block px-4 py-3 rounded-[12px]  drop-shadow-xl font-semibold"
+            >
+              Update
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                createAgendaTopic(description);
+              }}
+              className="mt-2 self-center bg-blue-700 text-sm text-white hover:bg-blue-900 block px-4 py-3 rounded-[12px]  drop-shadow-xl font-semibold"
+            >
+              Create
+            </button>
+          )}
         </li>
         <li>
           <Button

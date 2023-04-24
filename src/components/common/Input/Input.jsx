@@ -6,7 +6,7 @@ const Input = ({
   name,
   value,
   placeholder,
-  defaultChecked = false,
+  checked = false,
 
   secondCallback = () => {},
   callback = () => {},
@@ -35,7 +35,7 @@ const Input = ({
         onChange={(e) => callback(e)}
         onClick={(e) => secondCallback(e)}
         disabled={disabled}
-        defaultChecked={defaultChecked}
+        checked={checked}
       />
       {/* {formErrors.nameError.status ? (
       <p className={`text-red-500 text-xs  mx-1`}>

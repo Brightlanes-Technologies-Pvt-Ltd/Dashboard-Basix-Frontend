@@ -10,6 +10,7 @@ import { BsFiletypeCsv } from "react-icons/bs";
 import { RiEditBoxLine } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import {
+  createTopic,
   getAllTopicsOfAClass,
   updateTopic,
 } from "../../utils/api/classApI/topicAPI";
@@ -51,12 +52,15 @@ const TopicTable = () => {
     "mentorship",
     "Action",
   ]);
-
+  const addNewTopic = () => {
+    setTopicID(null);
+    setShowAgendaModal(true);
+  };
   const DropDownMenu = [
     {
       title: "Form",
       Icon: <FaWpforms />,
-      clickHander: () => setShowEditModal(true),
+      clickHander: addNewTopic,
     },
     {
       title: "CSV",
@@ -75,6 +79,17 @@ const TopicTable = () => {
     setShowAgendaModal(true);
   };
 
+  const createAgendaTopic = async (topicData) => {
+    try {
+      const { data } = await createTopic(topicData, classId);
+      toast.success(data.message, { autoClose: 1000 });
+      handleOnCloseAgendaForm();
+      getTopic();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getTopic = async () => {
     try {
       const { data } = await getAllTopicsOfAClass(classId);
@@ -88,6 +103,7 @@ const TopicTable = () => {
   useEffect(() => {
     getTopic();
   }, []);
+
   const updateAgenda = async (topicId, topicData) => {
     try {
       const { data } = await updateTopic(topicData, topicId);
@@ -108,7 +124,7 @@ const TopicTable = () => {
             onClick={() => setIsOpen((prev) => !prev)}
             className="flex flex-row p-3 rounded-xl gap-2 text-white font-semibold bg-blue-700 "
           >
-            Add Course {<AiOutlinePlus className="mt-1" />}
+            Add Topic {<AiOutlinePlus className="mt-1" />}
           </button>
         </div>
         <div className="flex flex-col items-end mr-6 rounded-md ">
@@ -160,10 +176,10 @@ const TopicTable = () => {
                         {td.description}
                       </th>
                       <th className="p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200">
-                        {td.startDate}
+                        {td.startDate.split("T")[0]}
                       </th>
                       <th className="p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200">
-                        {td.endDate}
+                        {td.endDate.split("T")[0]}
                       </th>
 
                       <th>{td.topicHours}</th>
@@ -274,6 +290,7 @@ const TopicTable = () => {
                           topicId={topicID}
                           handleOnCloseAgendaForm={handleOnCloseAgendaForm}
                           updateAgenda={updateAgenda}
+                          createAgendaTopic={createAgendaTopic}
                         />
                       </Modal>
                     </tr>

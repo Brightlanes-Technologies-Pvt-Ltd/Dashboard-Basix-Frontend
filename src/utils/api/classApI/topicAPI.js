@@ -1,12 +1,12 @@
 import axios from "axios";
 const baseUrl = `${process.env.REACT_APP_API}/topic`;
 
-export const createTopic = async (topicData) => {
+export const createTopic = async (topicData, classId) => {
   const url = `${baseUrl}/create`;
 
   return await axios.post(
     url,
-    { ...topicData },
+    { ...topicData, topicOf: classId },
     {
       withCredentials: true,
     }

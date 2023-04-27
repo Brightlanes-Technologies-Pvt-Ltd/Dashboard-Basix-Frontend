@@ -12,3 +12,17 @@ export const Signup = async (userData) => {
     }
   );
 };
+
+export const getTeachersData = async (teacher_id) => {
+  return await axios.get(`${baseUrl}/${teacher_id}`, {
+    withCredentials: true,
+  });
+};
+
+export const updateTeacherProfile = async (userData) => {
+  return await axios.put(
+    `${baseUrl}/update`,
+    { ...userData },
+    { withCredentials: true }
+  );
+};

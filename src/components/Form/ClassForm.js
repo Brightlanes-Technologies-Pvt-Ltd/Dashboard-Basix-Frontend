@@ -286,7 +286,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
         onSubmit={handleFormSubmit}
       >
         <ToastContainer />
-        <div className=" ">
+        <div className="p-5 gap-y-2 ">
           <div>
             <Input
               type="text"
@@ -303,7 +303,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
             )}
           </div>
 
-          <div className>
+          <div className="py-2">
             <SelectInputField
               label={"Faculty Name"}
               options={faculty}
@@ -318,133 +318,108 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
             )}
           </div>
 
-          <div>
-            <div className="flex flex-row">
+          <div className="flex flex-row gap-x-4">
+            <div
+              className="flex flex-col gap-y-2 py-2
+            "
+            >
               <label className="flex text-sm font-medium text-slate-700">
                 Start Date &amp; Time
               </label>
-              <div>
-                <div>
-                  <div>
-                    <DatePicker
-                      selected={classData.startDate}
-                      onChange={(date) =>
-                        setClassData({ ...classData, startDate: date })
-                      }
-                      className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex flex-row">
-                    <DatePicker
-                      selected={classData.startTime}
-                      onChange={(date) =>
-                        setClassData({ ...classData, startTime: date })
-                      }
-                      showTimeSelect
-                      showTimeSelectOnly
-                      timeCaption="Time"
-                      dateFormat=" hh:mm aa"
-                      className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
-                    />
-                  </div>
-                </div>
-                {error.startDateError.status ? (
-                  <p className="text-danger">{error.startDateError.error}</p>
-                ) : (
-                  ""
-                )}
-              </div>
+              <DatePicker
+                selected={classData.startDate}
+                onChange={(date) =>
+                  setClassData({ ...classData, startDate: date })
+                }
+                className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
+              />
+              <DatePicker
+                selected={classData.startTime}
+                onChange={(date) =>
+                  setClassData({ ...classData, startTime: date })
+                }
+                showTimeSelect
+                showTimeSelectOnly
+                timeCaption="Time"
+                dateFormat=" hh:mm aa"
+                className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
+              />
+              {error.startDateError.status ? (
+                <p className="text-danger">{error.startDateError.error}</p>
+              ) : (
+                ""
+              )}
             </div>
-          </div>
-
-          <div>
-            <div>
+            <div className="flex flex-col gap-y-2 py-2">
               <label className="flex text-sm font-medium text-slate-700">
                 End Date &amp; Time
               </label>
-              <div>
-                <div>
-                  <div>
-                    <DatePicker
-                        
-                      selected={classData.endDate}
-                      onChange={(date) =>
-                        setClassData({ ...classData, endDate: date }) 
-                    
-                      }
-                      className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div>
-                    <DatePicker
-                      selected={classData.endTime}
-                      onChange={(date) =>
-                        setClassData({ ...classData, endTime: date })
-                      }
-                      showTimeSelect
-                      showTimeSelectOnly
-                      timeIntervals={30}
-                      timeCaption="Time"
-                      dateFormat="hh:mm aa"
-                      className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
-                    />
-                  </div>
-                </div>
-                {error.endDateError.status ? (
-                  <p className="text-danger">{error.endDateError.error}</p>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div>
-              <div>
-                <Input
-                  type="number"
-                  name={"classHours"}
-                  value={classData.classHours}
-                  label={"No. of Hours"}
-                  disabled={true}
-                />
-              </div>
-              {error.classHoursError.status ? (
-                <p className="text-danger">{error.classHoursError.error}</p>
+              <DatePicker
+                selected={classData.endDate}
+                onChange={(date) =>
+                  setClassData({ ...classData, endDate: date })
+                }
+                className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
+              />
+              <DatePicker
+                selected={classData.endTime}
+                onChange={(date) =>
+                  setClassData({ ...classData, endTime: date })
+                }
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={30}
+                timeCaption="Time"
+                dateFormat="hh:mm aa"
+                className="border border-gray-300 dark:border-gray-700 w-28 text-center py-2 shadow-sm  rounded text-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 block  sm:text-sm focus:ring-1  placeholder-gray-500  "
+              />
+              {error.endDateError.status ? (
+                <p className="text-danger">{error.endDateError.error}</p>
               ) : (
                 ""
               )}
             </div>
           </div>
 
-          <div>
+          <div className="flex flex-col py-3">
             <div>
-              <label className="block text-sm font-medium text-slate-700">
-                Class Description
-              </label>
-              <div>
-                <textarea
-                  name="description"
-                  value={classData.description}
-                  onChange={getClassData}
-                  className="mt-1 px-2 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 
-       placeholder:text-sm
-       focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1  "
-                />
-              </div>
-              {error.descriptionError.status ? (
-                <p className="text-danger">{error.descriptionError.error}</p>
-              ) : (
-                ""
-              )}
+              <Input
+                type="number"
+                name={"classHours"}
+                value={classData.classHours}
+                label={"No. of Hours"}
+                disabled={true}
+              />
             </div>
+            {error.classHoursError.status ? (
+              <p className="text-danger">{error.classHoursError.error}</p>
+            ) : (
+              ""
+            )}
           </div>
+
           <div>
+            <label className="block text-sm font-medium text-slate-700">
+              Class Description
+            </label>
+            <div>
+              <textarea
+                name="description"
+                value={classData.description}
+                onChange={getClassData}
+                className="mt-1 px-2 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 
+              placeholder:text-sm
+              focus:outline-none focus:border-sky-500        focus:ring-sky-500 block w-full rounded-md sm:text-sm        focus:ring-1  "
+              />
+            </div>
+            {error.descriptionError.status ? (
+              <p className="text-danger">{error.descriptionError.error}</p>
+            ) : (
+              ""
+            )}
+          </div>
+
+          <div className="py-2">
             <div>
               <SelectInputField
                 options={eventOptions}
@@ -460,30 +435,7 @@ const ClassForm = ({ toggleForm, editClass = false, id = null }) => {
               )}
             </div>
           </div>
-          {/* --------------------------tick check box-------------------------------------- */}
-          {/* <div className="flex flex-col">
-            <label className="block text-sm font-medium text-slate-700">
-              {" "}
-              Agendas
-            </label>
-            <div>
-              {" "}
-              <ul className="flex gap-2">
-                {checkboxes.map((checkbox) => (
-                  <li key={checkbox.id}>
-                 
-                    <Input
-                      label={checkbox.label}
-                      type={"checkbox"}
-                      name={checkbox.label}
-                      value={checkbox.label}
-                      callback={handleCheckboxChange}
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div> */}
+
           <div>
             <ul className="flex justify-between ">
               <li className="">

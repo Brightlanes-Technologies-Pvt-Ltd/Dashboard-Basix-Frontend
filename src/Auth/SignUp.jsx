@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../redux/feateres/useSlice";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
-
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -45,11 +45,10 @@ const SignUp = () => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-
   return (
     <>
       <ToastContainer />
-      
+
       <div className=" flex justify-center items-center mt-3 ">
         <div className={`flex flex-col w-86  px-8 py-4   gap-3  bg-white`}>
           <div className="flex  gap-4 align items-center justify-center p-5">
@@ -129,11 +128,13 @@ const SignUp = () => {
 
               <p className={`text-xs text-center`}>
                 Already have an account ?{" "}
-                <span
-                  className={`text-sky-700 hover:cursor-pointer hover:text-sky-500`}
-                >
-                  Click Here
-                </span>
+                <Link to={"/"}>
+                  <span
+                    className={`text-sky-700 hover:cursor-pointer hover:text-sky-500`}
+                  >
+                    Click Here
+                  </span>
+                </Link>
               </p>
             </div>
           </div>

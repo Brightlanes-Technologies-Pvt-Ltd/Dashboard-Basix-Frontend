@@ -16,10 +16,6 @@ const Calendar = () => {
   const dispatch = useDispatch();
   const [mockEvents, updateEvent] = useState([]);
 
-  const [theme, settheme] = useState({
-    value: "bg-danger",
-    label: "Company",
-  });
 
   const displayEventsInCalender = () => {
     // showing events in calender
@@ -32,8 +28,7 @@ const Calendar = () => {
           start: value.startDate,
           end: value.endDate,
           description: value.description,
-          className: theme.value,
-          type: theme.value,
+          
           faculty: value.faculty,
         };
         events.push(newEvent);

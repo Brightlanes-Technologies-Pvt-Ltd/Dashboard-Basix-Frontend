@@ -6,14 +6,26 @@ import { RiEditBoxLine } from "react-icons/ri";
 import Modal from "../Modal/Modal";
 import ClassForm from "../Form/ClassForm";
 import DropZone from "../Form/DropZone";
+import DeleteModal from "../Modal/DeleteModal";
 
 const Table = ({ title, tableData, data }) => {
   const navigate = useNavigate();
-
+  const [deleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCSVModal, setShowCSVModal] = useState(false);
   const handleOnClose = () => setShowEditModal(false);
   const handleOnCloseCSV = () => setShowCSVModal(false);
+  const handleOnCloseDelete = () => setShowDeleteModal(false);
+
+  const [topicTitle, setTitle] = useState([
+    "course name",
+    "start date",
+    "end date",
+    "enrolled students",
+    "status",
+    "action",
+  ]);
+
   return (
     <div className="p-5 max-h-full bg-gray-100 ">
       <table className="w-full shadow-lg">
@@ -22,8 +34,8 @@ const Table = ({ title, tableData, data }) => {
           "
         >
           <tr>
-            {title &&
-              title.map((thead, index) => {
+            {topicTitle &&
+              topicTitle.map((thead, index) => {
                 return (
                   <th className="p-3 bg-white text-sm font-semibold tracking-wide uppercase ">
                     {thead}
@@ -50,9 +62,9 @@ const Table = ({ title, tableData, data }) => {
                   >
                     {td.courseName}
                   </th>
-                  <th className=" cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
+                  {/* <th className=" cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
                     {td.description}
-                  </th>
+                  </th> */}
                   <th className="   cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
                     {td.startDate.split("T")[0]}
                   </th>
@@ -65,22 +77,19 @@ const Table = ({ title, tableData, data }) => {
                   <th className="  cursor-pointer  p-3 text-sm font-semibold tracking-wide ">
                     <div className="px-3 py-1.5 text-xs font-medium  tracking-wider text-green-800 bg-green-200 rounded-lg bg-opacity-50">
                       {td.status}
-                    </div>{" "}
+                    </div>
                   </th>
 
                   <th className="cursor-pointer  p-3 text-sm font-semibold tracking-wide  flex justify-center ">
                     <div className="flex flex-row gap-x-3  ">
                       <RiEditBoxLine
-                        onClick={() => setShowCSVModal(true)}
-                        className="text-lg hover:text-2xl fill-blue-700"
-                      />
-
-                      <AiOutlineEye
                         onClick={() => setShowEditModal(true)}
                         className="text-lg hover:text-2xl fill-blue-700"
                       />
+
+                   
                       <MdOutlineDeleteOutline
-                        onClick={() => setShowCSVModal(true)}
+                        onClick={() => setShowDeleteModal(true)}
                         className="text-lg hover:text-2xl fill-blue-700"
                       />
                     </div>
@@ -91,6 +100,9 @@ const Table = ({ title, tableData, data }) => {
                     children={<ClassForm />}
                     ModalHeading={"Add a new class"}
                   />
+                  <Modal onClose={handleOnCloseDelete} visible={deleteModal}>
+                    <DeleteModal />
+                  </Modal>
                   <Modal
                     onClose={handleOnCloseCSV}
                     visible={showCSVModal}

@@ -6,25 +6,33 @@ import listPlugin from "@fullcalendar/list";
 
 import {
   Popover,
-  PopoverHeader,
-  PopoverBody,
-  ModalHeader,
-  Modal,
-  ModalBody,
+  PopoverHandler,
+  PopoverContent,
   Button,
-} from "reactstrap";
+  Chip,
+  Typography,
+} from "@material-tailwind/react";
 
 import { deleteClass } from "../../utils/api/classApI/classApi";
 import { ToastContainer, toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import { setClass } from "../../redux/feateres/classSlice";
 import { useDispatch } from "react-redux";
+import ClassForm from "../Form/ClassForm";
+import Modal from "../Modal/Modal";
+import { ModalBody, ModalHeader } from "reactstrap";
 
 const EventView = (event) => {
   const [mouseEnter, setMouseEnter] = useState(false);
   const { title, extendedProps, publicId } = event.event.event._def;
+  const [openPopover, setOpenPopover] = React.useState(false);
+  const triggers = {
+    onMouseEnter: () => setOpenPopover(true),
+    onMouseLeave: () => setOpenPopover(false),
+  };
+
   return (
-    <React.Fragment>
+    <>
       <div
         id={publicId}
         onMouseEnter={() => setMouseEnter(true)}
@@ -32,11 +40,11 @@ const EventView = (event) => {
       >
         {title}
       </div>{" "}
-      <Popover placement="bottom" isOpen={mouseEnter} target={publicId}>
-        <PopoverHeader>{title}</PopoverHeader>
-        <PopoverBody>{extendedProps.description}</PopoverBody>
-      </Popover>
-    </React.Fragment>
+      <PopoverHandler {...triggers}>
+        {" "}
+        <PopoverContent>{extendedProps.description}</PopoverContent>
+      </PopoverHandler>
+    </>
   );
 };
 
@@ -71,7 +79,7 @@ const CalenderApp = ({ events, onDelete, onEdit }) => {
       description: formData.description,
     };
     onEdit(newEvent);
-    settheme("");
+
     toggleEdit();
   };
   console.log(event.end, event.start);
@@ -132,7 +140,7 @@ const CalenderApp = ({ events, onDelete, onEdit }) => {
         editable={true}
         droppable={true}
       />
-      {/* 
+
       <Modal isOpen={modalState} toggle={toggle} className="modal-md">
         <ModalHeader
           className={event.className && event.className}
@@ -142,27 +150,27 @@ const CalenderApp = ({ events, onDelete, onEdit }) => {
           {event.faculty && event.faculty}
           getFacultyName(event.faculty )
         </ModalHeader>
-        <ModalBody>
-          <Row className="gy-3 py-1">
-            <Col sm="6">
+        <Modal>
+          <div className="gy-3 py-1">
+            <div sm="6">
               <h6 className="overline-title">Start Time</h6>
               <p id="preview-event-start">
                 {event.start && event.start.split("T")[0]}
               </p>
-            </Col>
-            <Col sm="6" id="preview-event-end-check">
+            </div>
+            <div sm="6" id="preview-event-end-check">
               <h6 className="overline-title">End Time</h6>
               <p id="preview-event-end">
                 {event.end && event.end.split("T")[0]}
               </p>
-            </Col>
-            <Col sm="10" id="preview-event-description-check">
+            </div>
+            <div sm="10" id="preview-event-description-check">
               <h6 className="overline-title">Description</h6>
               <p id="preview-event-description">
                 {event.description && event.description}
               </p>
-            </Col>
-          </Row>
+            </div>
+          </div>
           <ul className="d-flex justify-content-between gx-4 mt-3">
             <li>
               <Button
@@ -181,7 +189,7 @@ const CalenderApp = ({ events, onDelete, onEdit }) => {
               </Button>
             </li>
           </ul>
-        </ModalBody>
+        </Modal>
       </Modal>
       <Modal isOpen={edit} toggle={toggleEdit} className="modal-md">
         <ModalHeader toggle={toggleEdit}>Edit Class</ModalHeader>
@@ -194,7 +202,7 @@ const CalenderApp = ({ events, onDelete, onEdit }) => {
             />
           )}
         </ModalBody>
-      </Modal> */}
+      </Modal>
     </>
   );
 };

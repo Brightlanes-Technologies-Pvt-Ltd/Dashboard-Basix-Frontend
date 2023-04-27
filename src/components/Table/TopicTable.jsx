@@ -118,7 +118,7 @@ const TopicTable = () => {
   return (
     <>
       <ToastContainer />
-      <Layout heading={"classes"}>
+      <Layout heading={"Topics"}>
         <div className="mr-4 mt-2 flex  justify-end  z-100">
           <button
             onClick={() => setIsOpen((prev) => !prev)}
@@ -176,10 +176,10 @@ const TopicTable = () => {
                         {td.description}
                       </th>
                       <th className="p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200">
-                        {td.startDate.split("T")[0]}
+                        {td.startDate && td.startDate.split("T")[0]}
                       </th>
                       <th className="p-3 text-sm font-semibold tracking-wide hover:text-blue-700  hover:ring rounded-lg ring-offset-blue-200">
-                        {td.endDate.split("T")[0]}
+                        {td.endDate && td.endDate.split("T")[0]}
                       </th>
 
                       <th>{td.topicHours}</th>
@@ -250,10 +250,6 @@ const TopicTable = () => {
                             className="text-lg hover:text-2xl fill-blue-700"
                           />
 
-                          <AiOutlineEye
-                            onClick={() => setShowCSVModal(true)}
-                            className="text-lg hover:text-2xl fill-blue-700"
-                          />
                           <MdOutlineDeleteOutline
                             onClick={() => setShowDeleteModal(true)}
                             className="text-lg hover:text-2xl fill-blue-700"

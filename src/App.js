@@ -14,6 +14,7 @@ import Classes from "./components/Classes";
 import ClassForm from "./components/Form/ClassForm";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import TopicTable from "./components/Table/TopicTable";
+import AdminSidebar from "./components/Sidebar/AdminSidebar.jsx";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="/description/:classId" element={<TopicTable />} />
             <Route path="/add-course" element={<ClassForm />} />
             <Route path="/homepage" element={<Homepage />} />
+            <Route path="/adminsidebar" element={<AdminSidebar />} />
           </Route>
         </Routes>
       </BrowserRouter>
